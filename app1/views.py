@@ -10244,13 +10244,19 @@ def alter_payrol_add_voucher_edit2(request,pk):
 
 def stock_ageing(request):
 
-    if 't_id' in request.session:
-        if request.session.has_key('t_id'):
-            t_id = request.session['t_id']
-        else:
-            return redirect('/')
-    comp = Companies.objects.get(id=t_id)
 
-    context = {'company' : comp}
+
+        comp = Companies.objects.get(id=1)
+
+        context = {'company' : comp}
+        
+        return render(request,'stock_ageing_analysis.html',context)
+
+def stock_monthly(request):
+
     
-    return render(request,'stock_ageing_analysis.html',context)
+        comp = Companies.objects.get(id=1)
+
+        context = {'company' : comp}
+
+        return render(request,'stock_item_mnthly_summary.html',context)

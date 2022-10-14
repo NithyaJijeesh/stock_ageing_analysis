@@ -666,6 +666,6 @@ urlpatterns = [
 
 #-------Nithya-----
     path('stock_ageing',views.stock_ageing,name='stock_ageing'),
-
+    path('stock_monthly',views.stock_monthly,name = 'stock_monthly'),
 
      ]
