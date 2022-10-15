@@ -8,9 +8,8 @@
 
 
       thead th {
-                 border: .5px solid slategrey; 
-                 font-size: 15px;
-                 font-weight: 600;
+                border: .5px solid rgba(255, 255, 255, .2);
+                 
                 }
 
       .table-row{
@@ -31,7 +30,10 @@
         text-decoration: none;
         color:#fff;
        }
- 
+       a:hover{
+        color: none;
+        background-color: rgb(216, 155, 51);
+       }
      .btn{
                     background-color: rgb(41, 51, 51);
                     border: 1px,solid,cornflowerblue;
@@ -56,7 +58,7 @@
           <div class="container-fluid mt-3" >
               <div class="main-panel">
                   <div class="content-wrapper">
-                      <div class="row d-flex ms-0" style="background-color: rgb(58, 151, 209);color:#fff;width: 100%;margin: auto;">
+                      <div class="row d-flex ms-0" style="background-color: rgb(103, 175, 220);color:#fff;width: 100%;margin: auto;">
                           <div class="col-sm-6">Stock Ageing Analysis</div>
                           <div class="col-4" style="font-weight:600 ;text-transform:capitalize;">{{company.name}}</div>
                     
@@ -68,22 +70,23 @@
                       <div class="table-responsive">
                           <table class="table table-bordered table-sm border-dark" style="background-color: rgba(33,57,77,255);color:#fff;">
                             <tr  class="p-2">
-                              <th colspan="7">
+                              <th colspan="9" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2) ; border-right:none ;">
                                 <div>
-                                <div >Items Under : Stock_group name</div>
+                                <div >Items Under : {{group.name}}</div>
                                   <div>All Batches(Aged By Date of Purchase)</div>
                                 </div>
+                                
                                  </th>
-                              <th colspan="7" class="text-right">                           
+                              <th colspan="9" class="text-right" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2);border-left:none ;">                           
                                 
                                 <div >as at 1-April-2022</div>
                                 <div >Valued based on actual purchase</div>
                           </th>
                           </tr>
                           
-                          <tr class="p-2 text-center">
-                            <th colspan="2" class="text-center" rowspan="3">Particulars</th>
-                            <th colspan="1"class="text-right" rowspan="3">Expiry date</th>
+                          <tr class="p-2 text-center mt-5" >
+                            <th colspan="6" class="text-center" rowspan="3">Particulars</th>
+                            <th colspan="2"class="text-center" rowspan="3">Expiry date</th>
                               <th >Total</th>
                               <th colspan="2" > ( <45 days ) </th>
                               <th colspan="2" >45 to 90 days</th>
@@ -93,7 +96,7 @@
 
                           </tr>
 
-                          <tr class="p-2 text-center">
+                          <tr class="p-2 text-center" style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                               <th >Quantity</th>
                               <th >Qauntity </th>
                               <th >Value </th>
@@ -108,27 +111,33 @@
                           </tr>
                               
                               <tbody class="border-dark">
-                                
+                                {% for i in item %}
                                   <tr>
-                                    <td colspan="3"><a href="" class="text-decoration-none text-white">Abcd</a></td>
-                                    <td><a href="{% url 'stock_monthly' %}">2 2BTLS</a></td>
-                                    <td><a href="">2 2BTLS</a></td>
-                                    <td><a href="">xyz</a></td>
-                                    <td>{{ i.oquantity }}</td>
-                                    <td>{{ i.oeff_rate }}</td>
-                                    <td>{{ i.ovalue }}</td>
+                                    <td colspan="6"><a href="{% url 'stock_monthly' %}" class="text-decoration-none text-white">{{i.name}}</a></td>
+                                    <td colspan="2">{{i.expirydate}}</td>
+                                    
+                                    <td><a href="{% url 'stock_monthly' %}">{{i.quantity}} {{i.units}}</a></td>
+                                    <td><a href="">{{i.quantity}} {{i.units}}</a></td>
+                                    <td><a href="">{{i.value}}</a></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                   </tr>
-                                
+                                {% endfor %}
                               </tbody>
-                              <tfoot class="border-dark">
+                              <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                                 <tr>
-                                    <td  colspan="3">Grand Total</td>
+                                    <td  colspan="8" class="text-center">Grand Total</td>
                                     <td></td>
                                     <td></td>
                                     <td>{{ sum1 }}</td>
                                     <td></td>
                                     <td></td>
                                     <td>{{ sum2 }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                               </tfoot>
                           </table>

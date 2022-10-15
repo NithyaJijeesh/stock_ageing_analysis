@@ -5467,6 +5467,7 @@ def stock_items_creation(request):
             crt=stock_itemcreation(name=nm,alias=alias,under=under,units=units,batches=batches,trackdate=trackdate,expirydate=expirydate,typ_sply=typ_sply,
             gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value)
             crt.save()
+            
             return redirect('load_stock_item_creation')
         return render(request,'stock_item_creation.html',{'grp':grp,'unt':unt,'u':u,'tally':tally})
     return redirect('/')
@@ -6055,7 +6056,7 @@ def godown_secondary(request):
         gdcrt=CreateGodown(name=name,alias=alias,under_name=under_name,comp=company)
         gdcrt.save()
     return render(request,'godown(secondary).html',{'gd':gd})
-
+#ref
 def singlestockgroupanalysisview(request,pk):
     data1=stockgroupcreation.objects.get(id=pk)
     itm=data1.id
@@ -10242,21 +10243,63 @@ def alter_payrol_add_voucher_edit2(request,pk):
 
 # -------------Nithya------------
 
-def stock_ageing(request):
+def liststockgroups(request):
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+
+        data=stockgroupcreation.objects.filter(company=t_id)
+        context={'data':data}
+        return render(request,'list_stock_group.html',context)
 
 
+def stock_ageing(request,pk):
 
-        comp = Companies.objects.get(id=1)
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
 
-        context = {'company' : comp}
+        grp =stockgroupcreation.objects.get(id=pk)
+        item = stock_itemcreation.objects.filter(under = grp.name)
+        comp = Companies.objects.get(id=t_id)
+        
+        context = {'company' : comp,
+                    'group': grp,
+                    'item'  :item,
+                }
         
         return render(request,'stock_ageing_analysis.html',context)
 
 def stock_monthly(request):
 
-    
-        comp = Companies.objects.get(id=1)
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+
+        comp = Companies.objects.get(id=t_id)
 
         context = {'company' : comp}
 
         return render(request,'stock_item_mnthly_summary.html',context)
+
+def stock_item_voucher(request):
+
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+
+        comp = Companies.objects.get(id=t_id)
+
+        context = {'company' : comp}
+    
+        return render(request,'stock_item_voucher.html',context
+    
+    )

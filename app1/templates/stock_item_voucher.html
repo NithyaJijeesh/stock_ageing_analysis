@@ -6,12 +6,17 @@
             <div class="content-wrapper">
                 <div class="row d-flex " style="background-color: rgb(103, 175, 220);color:#fff;width:100%;margin: auto;">
                     <div class="col ">Stock Item Voucher</div>
+                    <div class="col-4" style="font-weight:600 ;text-transform:capitalize;">{{company.name}}</div>
+                    
+                          <div class= 'col-2'><a href="javascript:history.go(-1);">
+                              <span class="pull-right clickable" data-effect="fadeOut"><i class="fa fa-times" style="color: black;"></i></span></a>
+                          </div> 
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered border-dark " style="background-color: rgba(33,57,77,255);color:#fff;">
 
                        <tr>
-                        <th colspan="4" >Stock Item {{ display.Particular.Pro_Stock_Forgn.Particular }}</th>
+                        <th colspan="4" >Stock Item : {{ display.Particular.Pro_Stock_Forgn.Particular }}</th>
                         <th colspan="6" class="text-right">1-april-2022 to 30-april-2022</th>
                        </tr>
 
@@ -57,7 +62,7 @@
                        </tr> -->
 
                        <tr>
-                        <th colspan="4">TOTAL AS PER VALUATION :</th>
+                        <th colspan="4">Totals as per 'Default' Valuation :</th>
                         <th>{{sum1}}</th>
                         <th>{{sum2}}</th>
                         <th>{{sum3}}</th>

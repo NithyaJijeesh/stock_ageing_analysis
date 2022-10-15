@@ -1,3 +1,4 @@
+from operator import truediv
 from django.db import models
 from re import T
 
@@ -640,7 +641,16 @@ class Particular(models.Model):#ann Particular table
 
 # Niyas
 
+class stockgroupcreation(models.Model):
+    company=models.ForeignKey(Companies,on_delete=models.CASCADE,blank=True,null=True)
+    name=models.CharField(max_length=100)
+    alias=models.CharField(max_length=100)
+    under=models.CharField(max_length=100)
+    quantities=models.CharField(max_length=100)
+
 class stock_itemcreation(models.Model):
+
+    group = models.ForeignKey(stockgroupcreation,on_delete = models.CASCADE,null = True)
     name=models.CharField(max_length=100,null=True)
     alias=models.CharField(max_length=100,null=True)
     under=models.CharField(max_length=100,null=True)
@@ -656,6 +666,8 @@ class stock_itemcreation(models.Model):
     rate=models.CharField(max_length=100,null=True)
     per=models.CharField(max_length=100,null=True)
     value=models.CharField(max_length=100,null=True)
+
+    
 
 class analysis_view(models.Model):
     comp=models.ForeignKey(Companies,on_delete=models.CASCADE)
@@ -919,12 +931,7 @@ class revised_applicability(models.Model):
 class revised_applicability_composition(models.Model):
     appl_from_c=models.CharField(max_length=100)
 
-class stockgroupcreation(models.Model):
-    company=models.ForeignKey(Companies,on_delete=models.CASCADE,blank=True,null=True)
-    name=models.CharField(max_length=100)
-    alias=models.CharField(max_length=100)
-    under=models.CharField(max_length=100)
-    quantities=models.CharField(max_length=100)
+
     
 class stockcatagorycreation(models.Model):
     name=models.CharField(max_length=100)
@@ -1651,5 +1658,15 @@ class cash_bank_books_TotalClosing_balance(models.Model):
 
     def __str__(self):
         return self.ledger.ledger_name
+
+
+#----------Nithya------
+
+class get_stock_item(models.Model):
+
+    company = models.ForeignKey(Companies,on_delete = models.CASCADE,null = True)
+    group = models.ForeignKey(stockgroupcreation,on_delete = models.CASCADE,null = True)
+    item = models.ForeignKey(stock_itemcreation,on_delete = models.CASCADE,null = True)
+
 
 

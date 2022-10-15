@@ -665,7 +665,13 @@ urlpatterns = [
     path('alter_payrol_add_voucher_edit2/<int:pk>',views.alter_payrol_add_voucher_edit2,name='alter_payrol_add_voucher_edit2'), 
 
 #-------Nithya-----
-    path('stock_ageing',views.stock_ageing,name='stock_ageing'),
-    path('stock_monthly',views.stock_monthly,name = 'stock_monthly'),
 
-     ]
+    path('stock_ageing/<pk>',views.stock_ageing,name='stock_ageing'),
+    path('stock_monthly',views.stock_monthly,name = 'stock_monthly'),
+    path('stock_item_voucher',views.stock_item_voucher,name='stock_item_voucher'),
+    path('liststockgroups',views.liststockgroups,name="liststockgroups"),
+
+
+
+
+    ]
