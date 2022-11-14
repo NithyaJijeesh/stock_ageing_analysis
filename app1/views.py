@@ -32,6 +32,7 @@ from django.db.models.functions import TruncDate
 from django.db.models.functions import Extract
 from django.db.models import Count
 from unittest import TextTestRunner
+from datetime import timedelta
 
 # Create your views here.
 
@@ -5464,6 +5465,8 @@ def stock_items_creation(request):
             per=request.POST['per']
             value=request.POST['value']
             
+            
+            
             crt=stock_itemcreation(name=nm,alias=alias,under=under,units=units,batches=batches,trackdate=trackdate,expirydate=expirydate,typ_sply=typ_sply,
             gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value)
             crt.save()
@@ -5659,7 +5662,6 @@ def gst_stock(request):
             taxability=request.POST['taxability']
             g=gst_stockitem(taxability=taxability,calc_typ=calc_typ)
             g.save()
-            return redirect('gst_stock')
         return render(request,'gst_stock_item.html',{'tally':tally})
     return redirect('/')
 
@@ -10250,7 +10252,7 @@ def liststockgroups(request):
         else:
             return redirect('/')
 
-        data=stockgroupcreation.objects.filter(company=t_id)
+        data=stockgroupcreation.objects.filter(company_id=t_id)
         context={'data':data}
         return render(request,'list_stock_group.html',context)
 
@@ -10264,17 +10266,21 @@ def stock_ageing(request,pk):
             return redirect('/')
 
         grp =stockgroupcreation.objects.get(id=pk)
-        item = stock_itemcreation.objects.filter(under = grp.name)
+        item = stock_itemcreation.objects.all()
+        
+        
         comp = Companies.objects.get(id=t_id)
         
-        context = {'company' : comp,
+        context = {
+                    'company' : comp,
                     'group': grp,
                     'item'  :item,
+                    
                 }
         
         return render(request,'stock_ageing_analysis.html',context)
 
-def stock_monthly(request):
+def stock_monthly(request,pk):
 
     if 't_id' in request.session:
         if request.session.has_key('t_id'):
@@ -10283,12 +10289,18 @@ def stock_monthly(request):
             return redirect('/')
 
         comp = Companies.objects.get(id=t_id)
+        grp =stockgroupcreation.objects.filter(id=pk)
 
-        context = {'company' : comp}
+        item = stock_itemcreation.objects.all()
+        #item = stock_itemcreation.objects.raw("SELECT * FROM stock_itemcreation WHERE under == group.name")
+        voucher = stock_item_voucher.objects.filter(item_id = item.id)
+
+        context = {'company' : comp,
+                    'voucher': voucher}
 
         return render(request,'stock_item_mnthly_summary.html',context)
 
-def stock_item_voucher(request):
+def stock_item_voucher(request,pk):
 
     if 't_id' in request.session:
         if request.session.has_key('t_id'):
@@ -10298,8 +10310,25 @@ def stock_item_voucher(request):
 
         comp = Companies.objects.get(id=t_id)
 
-        context = {'company' : comp}
+        item = stock_itemcreation.objects.get(id = pk)
+        group = stockgroupcreation.objects.get(name = item.under)
+        vouch = stock_item_voucher.objects.filter(item_id = item.id)
+        for v in vouch:      
+            
+            qty = item.quantity+v.inwards_qty-v.outwards_qty
+            val = item.value+v.inwards_val-((item.quantity-v.inawrds_qty)* item.rate)
+            
+            v.closing_qty = qty
+            v.closing_val = val
+            v.save()
+            
+        context = {
+                    'company' : comp,
+                    'item' : item,
+                    'group': group,
+                    'voucher' : vouch,
+                    'qty':qty,
+                    'val' : val,
+                  }
     
-        return render(request,'stock_item_voucher.html',context
-    
-    )
+        return render(request,'stock_item_voucher.html',context)

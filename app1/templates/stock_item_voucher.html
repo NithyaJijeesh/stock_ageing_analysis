@@ -16,7 +16,7 @@
                     <table class="table table-bordered border-dark " style="background-color: rgba(33,57,77,255);color:#fff;">
 
                        <tr>
-                        <th colspan="4" >Stock Item : {{ display.Particular.Pro_Stock_Forgn.Particular }}</th>
+                        <th colspan="4" >Stock Item : {{ item.name }}</th>
                         <th colspan="6" class="text-right">1-april-2022 to 30-april-2022</th>
                        </tr>
 
@@ -30,15 +30,17 @@
                         <th colspan="2" class="text-center">Closing</th>
                        </tr>
 
+                       {% for v in voucher %}
                        <tr class="">
-                        <th colspan="4"></th>
-                        <th>Quantity</th>
-                        <th>Value</th>
-                        <th>Quantity</th>
-                        <th>Value</th>
-                        <th>Quantity</th>
-                        <th>Value</th> 
+                        <th>{{v.date}}</th>
+                        <th>{{v.inwards_qty}}</th>
+                        <th>{{v.inwards_val}}</th>
+                        <th>{{v.outwards_qty}}</th>
+                        <th>{{v.outwards_val}}</th>
+                        <th>{{v.closing_qty}}</th>
+                        <th>{{v.closing_val}}</th> 
                        </tr>
+                       {% endfor %}
                        {% for i in data %}
                        <tr class="trhover">
                         <td>{{ i.Date }}</td>

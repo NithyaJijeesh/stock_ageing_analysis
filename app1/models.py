@@ -1662,11 +1662,20 @@ class cash_bank_books_TotalClosing_balance(models.Model):
 
 #----------Nithya------
 
-class get_stock_item(models.Model):
+class stock_item_voucher(models.Model):
 
     company = models.ForeignKey(Companies,on_delete = models.CASCADE,null = True)
     group = models.ForeignKey(stockgroupcreation,on_delete = models.CASCADE,null = True)
     item = models.ForeignKey(stock_itemcreation,on_delete = models.CASCADE,null = True)
+    date = models.DateField(null = True)
+    Voucher_type = models.CharField(max_length = 50)
+    Voucher_no = models.IntegerField(null = True)
+    inwards_qty = models.IntegerField(null = True)
+    inwards_val = models.IntegerField(null = True)
+    outwards_qty = models.IntegerField(null = True)
+    outwards_val = models.IntegerField(null = True)
+    closing_qty = models.IntegerField(null = True)
+    closing_val = models.IntegerField(null = True)
 
 
 

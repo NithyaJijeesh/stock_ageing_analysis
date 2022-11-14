@@ -109,14 +109,14 @@
                               <th>Qauntity </th>
 
                           </tr>
-                              
+                             
                               <tbody class="border-dark">
                                 {% for i in item %}
                                   <tr>
-                                    <td colspan="6"><a href="{% url 'stock_monthly' %}" class="text-decoration-none text-white">{{i.name}}</a></td>
+                                    <td colspan="6"><a href="{% url 'stock_monthly' i.id %}" class="text-decoration-none text-white">{{i.name}}</a></td>
                                     <td colspan="2">{{i.expirydate}}</td>
                                     
-                                    <td><a href="{% url 'stock_monthly' %}">{{i.quantity}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'stock_monthly' i.id %}">{{i.quantity}} {{i.units}}</a></td>
                                     <td><a href="">{{i.quantity}} {{i.units}}</a></td>
                                     <td><a href="">{{i.value}}</a></td>
                                     <td></td>

@@ -119,9 +119,9 @@ cursor:pointer;
                             {% endfor %} -->
 
                            
-                            
+                            {% for v in voucher %}
                             <tr class="table-row" data-ref="{% url 'stock_item_voucher' %}">
-                                <td><a href="{% url 'stock_item_voucher' %}">April</a> </td>
+                                <td><a href="{% url 'stock_item_voucher' v.id %}">April</a> </td>
                                 <td></td>
                                 <td></td>
                                 <td style="text-align: end;"><strong></strong></td>

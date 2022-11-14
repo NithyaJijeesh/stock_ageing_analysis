@@ -667,8 +667,8 @@ urlpatterns = [
 #-------Nithya-----
 
     path('stock_ageing/<pk>',views.stock_ageing,name='stock_ageing'),
-    path('stock_monthly',views.stock_monthly,name = 'stock_monthly'),
-    path('stock_item_voucher',views.stock_item_voucher,name='stock_item_voucher'),
+    path('stock_monthly/<pk>',views.stock_monthly,name = 'stock_monthly'),
+    path('stock_item_voucher/<pk>',views.stock_item_voucher,name='stock_item_voucher'),
     path('liststockgroups',views.liststockgroups,name="liststockgroups"),
 
 
