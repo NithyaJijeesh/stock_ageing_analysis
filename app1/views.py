@@ -10333,7 +10333,7 @@ def stock_item_voucher(request,pk):
     
         return render(request,'stock_item_voucher.html',context)
 
-def item_inwards(request,pk):
+def item_inwards(request):
 
     if 't_id' in request.session:
         if request.session.has_key('t_id'):
@@ -10342,7 +10342,7 @@ def item_inwards(request,pk):
             return redirect('/')
 
         comp = Companies.objects.get(id=t_id)
-        group = stockgroupcreation.objects.get(id=pk)
+        #group = stockgroupcreation.objects.get(id=pk)
 
 
 

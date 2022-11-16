@@ -117,8 +117,8 @@
                                     <td colspan="2">{{i.expirydate}}</td>
                                     
                                     <td><a href="{% url 'stock_monthly' i.id %}">{{i.quantity}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.quantity}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id%}">{{i.value}}</a></td>
+                                    <td><a href="{% url 'item_inwards' %}">{{i.quantity}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards' %}">{{i.value}}</a></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
