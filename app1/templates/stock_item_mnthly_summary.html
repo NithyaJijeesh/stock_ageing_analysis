@@ -83,40 +83,7 @@ cursor:pointer;
 
                             </tr>
                             
-                             <!-- {% for i in mo %}
-                            
-                            
-                            
-                          <tr class="table-row" data-href="{% url 'ledger_show' le.id i.id %}">
-                                <td>{{i.month_name}}</td>
-                                
-                                 
-                                {% if i.leger_month_closing_set.all %}
-                                 
-                                {% for j in i.leger_month_closing_set.all %}
-                                 
-                                    {% if j.Ledger == le %}
-
-                                 
-                                 
-                                        <td style="text-align: end;"><strong>{{j.debit }}</strong></td>
-                                        <td style="text-align: end;"><strong>{{j.credit}}</strong></td>
-                                        <td style="text-align: end;"><strong>{{j.Closing_balance}} &nbsp; {{j.type}}</strong></td>
-
-                                    {% endif %}
-                                    
-
-                                {% endfor %}
-
-                                 {% else%}
-                                 <td style="text-align: end;"><strong></strong></td>
-                                 <td style="text-align: end;"><strong></strong></td>
-                                 <td style="text-align: end;"><strong></strong></td>
-                                 {% endif %}
-
-                            </tr>
-                            
-                            {% endfor %} -->
+                             
 
                            
                             {% for v in voucher %}
@@ -204,7 +171,7 @@ cursor:pointer;
                                 <td style="text-align: end;"><strong></strong></td>
 
                             </tr> 
-
+                            {% endfor %}
 
                             <tr class="table-row">
                                 <th  ><h6 class="d-flex align-items-sm-start par p-1 py-1 foot" style="margin-left: 20px;">Grand Total</h6></th>

@@ -59,7 +59,7 @@
               <div class="main-panel">
                   <div class="content-wrapper">
                       <div class="row d-flex ms-0" style="background-color: rgb(103, 175, 220);color:#fff;width: 100%;margin: auto;">
-                          <div class="col-sm-6">Stock Ageing Analysis</div>
+                          <div class="col-sm-6">Item Inwards Details</div>
                           <div class="col-4" style="font-weight:600 ;text-transform:capitalize;">{{company.name}}</div>
                     
                           <div class= 'col-2'><a href="javascript:history.go(-1);">
@@ -72,14 +72,13 @@
                             <tr  class="p-2">
                               <th colspan="9" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2) ; border-right:none ;">
                                 <div>
-                                <div >Items Under : {{group.name}}</div>
-                                  <div>All Batches(Aged By Date of Purchase)</div>
+                                <div >Stock Item : {{group.name}}</div>
                                 </div>
                                 
                                  </th>
                               <th colspan="9" class="text-right" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2);border-left:none ;">                           
                                 
-                                <div >as at 1-April-2022</div>
+                                <div >open date to 1-April-2022</div>
                                 <div >Valued based on actual purchase</div>
                           </th>
                           </tr>
@@ -117,8 +116,8 @@
                                     <td colspan="2">{{i.expirydate}}</td>
                                     
                                     <td><a href="{% url 'stock_monthly' i.id %}">{{i.quantity}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.quantity}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id%}">{{i.value}}</a></td>
+                                    <td><a href="{% url 'item_inwards' %}">{{i.quantity}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{i.value}}</a></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>

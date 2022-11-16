@@ -670,7 +670,7 @@ urlpatterns = [
     path('stock_monthly/<pk>',views.stock_monthly,name = 'stock_monthly'),
     path('stock_item_voucher/<pk>',views.stock_item_voucher,name='stock_item_voucher'),
     path('liststockgroups',views.liststockgroups,name="liststockgroups"),
-
+    path('item_inwards / <pk>',views.item_inwards,name="item_inwards"),
 
 
 

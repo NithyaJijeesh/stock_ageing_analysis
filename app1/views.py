@@ -10293,7 +10293,7 @@ def stock_monthly(request,pk):
 
         item = stock_itemcreation.objects.all()
         #item = stock_itemcreation.objects.raw("SELECT * FROM stock_itemcreation WHERE under == group.name")
-        voucher = stock_item_voucher.objects.filter(item_id = item.id)
+        #voucher = stock_item_voucher.objects.filter(item_id = item.id)
 
         context = {'company' : comp,
                     'voucher': voucher}
@@ -10332,3 +10332,21 @@ def stock_item_voucher(request,pk):
                   }
     
         return render(request,'stock_item_voucher.html',context)
+
+def item_inwards(request,pk):
+
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+
+        comp = Companies.objects.get(id=t_id)
+        group = stockgroupcreation.objects.get(id=pk)
+
+
+
+        context = {'company' : comp ,
+                    'group' : group 
+                  }
+        return render(request,'item_inwards_details.html',context)
