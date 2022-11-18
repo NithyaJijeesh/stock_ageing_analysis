@@ -10252,6 +10252,8 @@ def liststockgroups(request):
         else:
             return redirect('/')
 
+        
+
         data=stockgroupcreation.objects.filter(company_id=t_id)
         context={'data':data}
         return render(request,'list_stock_group.html',context)
@@ -10267,7 +10269,6 @@ def stock_ageing(request,pk):
 
         grp =stockgroupcreation.objects.get(id=pk)
         item = stock_itemcreation.objects.all()
-        
         
         comp = Companies.objects.get(id=t_id)
         
@@ -10289,18 +10290,22 @@ def stock_monthly(request,pk):
             return redirect('/')
 
         comp = Companies.objects.get(id=t_id)
-        grp =stockgroupcreation.objects.filter(id=pk)
+        
+        months = fmonths.objects.all()
 
-        item = stock_itemcreation.objects.all()
-        #item = stock_itemcreation.objects.raw("SELECT * FROM stock_itemcreation WHERE under == group.name")
-        #voucher = stock_item_voucher.objects.filter(item_id = item.id)
+        item = stock_itemcreation.objects.get(id=pk)
+        voucher = stock_item_voucher.objects.filter(item_id = item.id)
 
-        context = {'company' : comp,
-                    'voucher': voucher}
+        context = {
+                    'company' : comp,
+                    'months' : months,
+                    'item' : item,
+                    'voucher' : voucher,
+                }
 
         return render(request,'stock_item_mnthly_summary.html',context)
 
-def stock_item_voucher(request,pk):
+def stock_item_vouchers(request,pk,id):
 
     if 't_id' in request.session:
         if request.session.has_key('t_id'):
@@ -10313,6 +10318,9 @@ def stock_item_voucher(request,pk):
         item = stock_itemcreation.objects.get(id = pk)
         group = stockgroupcreation.objects.get(name = item.under)
         vouch = stock_item_voucher.objects.filter(item_id = item.id)
+
+        months = fmonths.objects.all()
+
         for v in vouch:      
             
             qty = item.quantity+v.inwards_qty-v.outwards_qty
@@ -10327,6 +10335,7 @@ def stock_item_voucher(request,pk):
                     'item' : item,
                     'group': group,
                     'voucher' : vouch,
+                    'months' : months,
                     'qty':qty,
                     'val' : val,
                   }

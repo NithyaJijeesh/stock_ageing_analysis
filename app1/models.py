@@ -1678,4 +1678,9 @@ class stock_item_voucher(models.Model):
     closing_val = models.IntegerField(null = True)
 
 
+class fmonths(models.Model):
+    month_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.month_name
 

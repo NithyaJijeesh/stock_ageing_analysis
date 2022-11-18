@@ -141,3 +141,4 @@ class LedgerVoucher_Admin(admin.ModelAdmin):
 admin.site.register(stockgroupcreation)
 admin.site.register(stock_itemcreation)
 admin.site.register(stock_item_voucher)
+admin.site.register(fmonths)
