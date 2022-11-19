@@ -31,7 +31,7 @@ cursor:pointer;
     <div class="container-fluid">
         <div class="main-panel">
             <div class="content-wrapper">
-                <div class="row d-flex " style="background-color: rgb(103, 175, 220);color:#fff;width:100%;margin: auto;">
+                <div class="row d-flex" style="background-color: rgb(103, 175, 220);color:#fff;width:100%;margin: auto;">
                     <div class="col ">Stock Item Monthly Summary</div>
                     <div class="col-4" style="font-weight:600 ;text-transform:capitalize;">{{company.name}}</div>
                     
@@ -48,7 +48,7 @@ cursor:pointer;
                                 <th rowspan="3" colspan="3" class="align-middle text-white "> <h6 class="d-flex align-items-sm-start par p-1 py-1" style="margin-left: 20px;">Particular</h6></th>
                                 
                                 <th colspan="6" class="text-center text-white " ><h6><i>{{ item.name}}</i></h6>
-                                  <h6><strong> {{company.name}} </strong></h6><h6>1-Apr-2022 to 1-May-2022</h6></th>
+                                  <h6><strong> {{company.name}} </strong></h6><h6>{{company.fin_begin}} to 1-May-2022</h6></th>
                               </tr>
                               <tr>
 
@@ -68,7 +68,6 @@ cursor:pointer;
                               </tr>
 
                         </thead>
-                        
 
                         <tbody>
                             <tr class="table-row">
@@ -85,35 +84,59 @@ cursor:pointer;
 
                             </tr>
 
+                            
+                            {% for v in voucher %}
                             {% for m in months %}
-                                                      
-                            <tr class="table-row">
+                            {% for i in d1 %}
+                 
+                            <tr class="table-row" data-href="">
                               
-                                <td><a href="">{{ m.month_name }}</a> </td>
+                                <td> <a href="{% url 'stock_item_vouchers' m.id %}">{{m.month_name }}</a> </td>
+
+                                {% if m.month_name == i%}
+
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+
+                                <td class="text-center">{{v.inwards_qty}}</td>
+                                <td class="text-center">{{v.inwards_val}}</td>
+                                
+                                <td class="text-center">{{v.outwards_qty}}</td>
+                                <td class="text-center">{{v.outwards_val}}</td>
+
+                                <td class="text-center"> {{v.closing_qty}}</td>
+                                <td class="text-center">{{v.closing_val}}</td>
+
+                                {% else %}
+
                                 <td class="text-center"></td>
                                 <td class="text-center"></td>
                                 <td class="text-center"></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                {% endif %}
+
 
                             </tr>
+                            {% endfor %}
+                            {% endfor %}
                             {% endfor %}
                             
 
                             <tr class="table-row">
                                 <th  ><h6 class="d-flex align-items-sm-start par p-1 py-1 foot" style="margin-left: 20px;">Grand Total</h6></th>
                                 
-                                <th  style="text-align: end;">{{total_debit}}</th>
-                                <th  style="text-align: end;">{{total_credit}}</th>
-                                <th  style="text-align: end;">{{closing_balance}}&nbsp;{{type1}}</th>
+                                <th  style="text-align: end;"></th>
+                                <th  style="text-align: end;"></th>
+                                <th  style="text-align: end;"></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th></th>
-                                <th></th>
+                                <th style="text-align: end;">{{item.quantity}}</th>
+                                <th style="text-align: end;">{{item.value}}</th>
                                 
                             </tr>
 

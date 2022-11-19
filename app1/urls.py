@@ -668,7 +668,7 @@ urlpatterns = [
 
     path('stock_ageing/<pk>',views.stock_ageing,name='stock_ageing'),
     path('stock_monthly/<pk>',views.stock_monthly,name = 'stock_monthly'),
-    path('stock_item_vouchers/<pk>/<id>',views.stock_item_voucher,name='stock_item_voucher'),
+    path('stock_item_vouchers/<pk>',views.stock_item_vouchers,name='stock_item_vouchers'),
     path('liststockgroups',views.liststockgroups,name="liststockgroups"),
     path('item_inwards',views.item_inwards,name="item_inwards"),
 

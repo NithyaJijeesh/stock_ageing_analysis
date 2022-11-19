@@ -16,10 +16,9 @@
                     <table class="table table-bordered border-dark " style="background-color: rgba(33,57,77,255);color:#fff;">
 
                        <tr>
-                        <th colspan="4" >Stock Item : {{ item.name }}</th>
+                        <th colspan="4" >Stock Item : {{ vouch.item.name }}</th>
                         <th colspan="6" class="text-right">1-april-2022 to 30-april-2022</th>
                        </tr>
-
                        <tr>
                         <th>Date</th>
                         <th>Particulars</th>
@@ -29,10 +28,26 @@
                         <th colspan="2" class="text-center">Outwards</th>
                         <th colspan="2" class="text-center">Closing</th>
                        </tr>
+                       {{vouch}}
+                       <tr class="">
+                        <th>{{vouch.date}}</th>
+                        <th class="text-center"><i> Opening Balance</i></th>
+                        <td></td>
+                        <td></td>
+                        <th>{{vouch.item.quantity}}</th>
+                        <th>{{vouch.item.value}}</th>
+                        <th></th>
+                        <th></th>
+                        <th>{{vouch.item.quantity}}</th>
+                        <th>{{vouch.item.value}}</th> 
+                       </tr>
 
-                       {% for v in voucher %}
+                       {% for v in vouch %}
                        <tr class="">
                         <th>{{v.date}}</th>
+                        <th>{{v.Particulars}}</th>
+                        <td>{{ v.Voucher_type }}</td>
+                        <td>{{ v.Vocher_no }}</td>
                         <th>{{v.inwards_qty}}</th>
                         <th>{{v.inwards_val}}</th>
                         <th>{{v.outwards_qty}}</th>
@@ -41,27 +56,6 @@
                         <th>{{v.closing_val}}</th> 
                        </tr>
                        {% endfor %}
-                       {% for i in data %}
-                       <tr class="trhover">
-                        <td>{{ i.Date }}</td>
-                        <td>{{ i.Particular }}</td>
-                        <td>{{ i.Voucher_Type }}</td>
-                        <td>{{ i.Vch_No }}</td>
-                        <td>{{ i.Inwards_Qty }}</td>
-                        <td>{{ i.Inwards_Vlu }}</td>
-                        <td>{{ i.Outwards_Qty }}</td>
-                        <td>{{ i.Outwards_Vlu }}</td>
-                        <td>{{ display.Closing_Bal_Qty }}</td>
-                        <td>{{ display.Closing_Bal_Vlu }}</td>
-                       </tr>
-                       {% endfor %}
-                       
-                       
-                       
-                       
-                       <!-- <tr>
-                        <td colspan="10" class="py-5"></td>
-                       </tr> -->
 
                        <tr>
                         <th colspan="4">Totals as per 'Default' Valuation :</th>

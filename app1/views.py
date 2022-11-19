@@ -4,7 +4,7 @@ from tally.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 from calendar import month
 from urllib import response
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,date
 from django.contrib import messages
 from django.shortcuts import render,redirect
 from .models import *
@@ -21,8 +21,6 @@ from django.db.models import Sum
 from cgi import print_arguments
 from multiprocessing import context
 from symtable import Symbol
-from unicodedata import name
-from urllib import request
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.http import JsonResponse
@@ -30,9 +28,6 @@ from django.db.models.functions import TruncDay
 from django.db.models.functions import TruncMonth
 from django.db.models.functions import TruncDate
 from django.db.models.functions import Extract
-from django.db.models import Count
-from unittest import TextTestRunner
-from datetime import timedelta
 
 # Create your views here.
 
@@ -10290,22 +10285,37 @@ def stock_monthly(request,pk):
             return redirect('/')
 
         comp = Companies.objects.get(id=t_id)
+
+        beg = comp.fin_begin.strftime('%m')
         
         months = fmonths.objects.all()
 
         item = stock_itemcreation.objects.get(id=pk)
         voucher = stock_item_voucher.objects.filter(item_id = item.id)
 
+        date1 = []
+        for vouch in voucher:
+        
+            date1.append(vouch.date)
+
+        d1 =[]
+        for i in range(0,len(voucher)):
+            if date1[i].strftime('%B') not in d1:
+
+                d1.append(date1[i].strftime('%B'))
+
         context = {
                     'company' : comp,
                     'months' : months,
                     'item' : item,
                     'voucher' : voucher,
+                    'begin' : beg,
+                    'd1' : d1
                 }
 
         return render(request,'stock_item_mnthly_summary.html',context)
 
-def stock_item_vouchers(request,pk,id):
+def stock_item_vouchers(request,pk):
 
     if 't_id' in request.session:
         if request.session.has_key('t_id'):
@@ -10313,31 +10323,33 @@ def stock_item_vouchers(request,pk,id):
         else:
             return redirect('/')
 
-        comp = Companies.objects.get(id=t_id)
+        comp = Companies.objects.get(id= t_id)
+        months = fmonths.objects.get(id = pk)
+        vouch = stock_item_voucher.objects.filter(month_id = months.id)
 
-        item = stock_itemcreation.objects.get(id = pk)
-        group = stockgroupcreation.objects.get(name = item.under)
-        vouch = stock_item_voucher.objects.filter(item_id = item.id)
 
-        months = fmonths.objects.all()
+        for v in vouch:    
 
-        for v in vouch:      
-            
+            item = stock_itemcreation.objects.get(id = v.item_id)
+
             qty = item.quantity+v.inwards_qty-v.outwards_qty
-            val = item.value+v.inwards_val-((item.quantity-v.inawrds_qty)* item.rate)
+            val = item.value+v.inwards_val-((item.quantity-v.inwards_qty)* item.rate)
             
             v.closing_qty = qty
             v.closing_val = val
+
+            v.month = months.id
             v.save()
             
         context = {
                     'company' : comp,
-                    'item' : item,
-                    'group': group,
-                    'voucher' : vouch,
+                    #'item' : item,
+                    #'group': vgroup ,
+                    'vouch' : vouch,
                     'months' : months,
-                    'qty':qty,
-                    'val' : val,
+                    #'qty':qty,
+                    #'val' : val,
+                    
                   }
     
         return render(request,'stock_item_voucher.html',context)
