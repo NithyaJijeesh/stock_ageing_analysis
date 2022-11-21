@@ -5460,11 +5460,11 @@ def stock_items_creation(request):
             per=request.POST['per']
             value=request.POST['value']
             
-            
-            
+                     
             crt=stock_itemcreation(name=nm,alias=alias,under=under,units=units,batches=batches,trackdate=trackdate,expirydate=expirydate,typ_sply=typ_sply,
-            gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value)
+            gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value )
             crt.save()
+            
             
             return redirect('load_stock_item_creation')
         return render(request,'stock_item_creation.html',{'grp':grp,'unt':unt,'u':u,'tally':tally})
@@ -10247,9 +10247,8 @@ def liststockgroups(request):
         else:
             return redirect('/')
 
-        
-
         data=stockgroupcreation.objects.filter(company_id=t_id)
+
         context={'data':data}
         return render(request,'list_stock_group.html',context)
 
@@ -10262,16 +10261,19 @@ def stock_ageing(request,pk):
         else:
             return redirect('/')
 
-        grp =stockgroupcreation.objects.get(id=pk)
-        item = stock_itemcreation.objects.all()
-        
         comp = Companies.objects.get(id=t_id)
+
+        grp =stockgroupcreation.objects.get(id=pk)
+
+        item = stock_itemcreation.objects.filter(under = grp.name)
         
+        vouch = stock_item_voucher.objects.filter(group_id = grp.id)
+
         context = {
                     'company' : comp,
                     'group': grp,
                     'item'  :item,
-                    
+                    'voucher' : vouch,
                 }
         
         return render(request,'stock_ageing_analysis.html',context)
@@ -10313,7 +10315,7 @@ def stock_monthly(request,pk):
                     'd1' : d1
                 }
 
-        return render(request,'stock_item_mnthly_summary.html',context)
+        return render(request,'stock_item_monthly_summary.html',context)
 
 def stock_item_vouchers(request,pk):
 
@@ -10333,7 +10335,7 @@ def stock_item_vouchers(request,pk):
             item = stock_itemcreation.objects.get(id = v.item_id)
 
             qty = item.quantity+v.inwards_qty-v.outwards_qty
-            val = item.value+v.inwards_val-((item.quantity-v.inwards_qty)* item.rate)
+            val = item.value+v.inwards_val-((item.quantity-v.inwards_qty) * item.rate)
             
             v.closing_qty = qty
             v.closing_val = val
@@ -10364,10 +10366,12 @@ def item_inwards(request):
 
         comp = Companies.objects.get(id=t_id)
         #group = stockgroupcreation.objects.get(id=pk)
+        #item = stock_itemcreation.objects.get(id = pk)
 
 
 
         context = {'company' : comp ,
-                    'group' : group 
+                    #'item' : item ,
+
                   }
         return render(request,'item_inwards_details.html',context)

@@ -73,10 +73,11 @@
                                 <div >Valued based on actual purchase</div>
                           </th>
                           </tr>
+                          {{voucher}}
                           
                           <tr class="p-2 text-center mt-5" >
-                            <th colspan="8" class="text-center" rowspan="3">Particulars</th>
-                            <th colspan="2"class="text-center" rowspan="3">Expiry date</th>
+                            <th colspan="8" class="text-center" rowspan="2">Particulars</th>
+                            <th colspan="2"class="text-center" rowspan="2">Expiry date</th>
                               <th >Total</th>
                               <th colspan="2" > ( <45 days ) </th>
                               <th colspan="2" >45 to 90 days</th>
@@ -107,8 +108,8 @@
                                     <td colspan="2" class="text-center">{{i.expirydate}}</td>
                                     
                                     <td><a href="{% url 'stock_monthly' i.id %}">{{i.quantity}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' %}">{{i.quantity}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' %}">{{i.value}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{i.quantity}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{i.value}}</a></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -117,17 +118,9 @@
                               </tbody>
                               <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                                 <tr>
-                                    <td  colspan="8" class="text-center">Grand Total</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{{ sum1 }}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{{ sum2 }}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td  colspan="10" class="text-center">Grand Total</td>
+                                    
+      
                                 </tr>
                               </tfoot>
                           </table>

@@ -16,38 +16,46 @@
                     <table class="table table-bordered border-dark " style="background-color: rgba(33,57,77,255);color:#fff;">
 
                        <tr>
-                        <th colspan="4" >Stock Item : {{ vouch.item.name }}</th>
-                        <th colspan="6" class="text-right">1-april-2022 to 30-april-2022</th>
+                        <th colspan="7" >Stock Item : {{ vouch.item.name }}</th>
+                        <th colspan="7" class="text-right">1-april-2022 to 30-april-2022</th>
                        </tr>
                        <tr>
-                        <th>Date</th>
-                        <th>Particulars</th>
-                        <th>Vch Type</th>
-                        <th>Vch No</th>
+                        <th rowspan="2"> Date</th>
+                        <th colspan="6" rowspan="2">Particulars</th>
+                        
                         <th colspan="2" class="text-center">Inwards</th>
-                        <th colspan="2" class="text-center">Outwards</th>
+                        <th colspan="2"  class="text-center">Outwards</th>
                         <th colspan="2" class="text-center">Closing</th>
                        </tr>
-                       {{vouch}}
+                       
+                       <tr>
+                        <th class="text-center text-white">Quantity</th>
+                        <th class="text-center text-white">Value</th>
+                        <th class="text-center text-white">Quantity</th>
+                        <th class="text-center text-white">Value</th>
+                        <th class="text-center text-white">Quantity</th>
+                        <th class="text-center text-white">Value</th>
+                      </tr>
+
                        <tr class="">
-                        <th>{{vouch.date}}</th>
-                        <th class="text-center"><i> Opening Balance</i></th>
+                        
+                        <td colspan="7" class="text-left"><i> Opening Balance</i></td>
+                        <td>{{vouch.item.quantity}}</td>
+                        <td>{{vouch.item.value}}</td>
+                       
+                        <td>{{vouch.item.quantity}}</td>
+                        <td>{{vouch.item.value}}</td> 
                         <td></td>
                         <td></td>
-                        <th>{{vouch.item.quantity}}</th>
-                        <th>{{vouch.item.value}}</th>
-                        <th></th>
-                        <th></th>
-                        <th>{{vouch.item.quantity}}</th>
-                        <th>{{vouch.item.value}}</th> 
+                        
+                        
                        </tr>
 
                        {% for v in vouch %}
                        <tr class="">
-                        <th>{{v.date}}</th>
-                        <th>{{v.Particulars}}</th>
-                        <td>{{ v.Voucher_type }}</td>
-                        <td>{{ v.Vocher_no }}</td>
+                        <td >{{v.date}}</td>
+                        <td colspan="6">{{v.Particulars}}</td>
+                        
                         <th>{{v.inwards_qty}}</th>
                         <th>{{v.inwards_val}}</th>
                         <th>{{v.outwards_qty}}</th>
@@ -58,13 +66,13 @@
                        {% endfor %}
 
                        <tr>
-                        <th colspan="4">Totals as per 'Default' Valuation :</th>
-                        <th>{{sum1}}</th>
-                        <th>{{sum2}}</th>
-                        <th>{{sum3}}</th>
-                        <th>{{sum4}}</th>
-                        <th>{{sum5}}</th>
-                        <th>{{sum6}}</th>
+                        <td colspan="7">Totals as per 'Default' Valuation :</td>
+                        <td>{{sum1}}</td>
+                        <td>{{sum2}}</td>
+                        <td>{{sum3}}</td>
+                        <td>{{sum4}}</td>
+                        <td>{{sum5}}</td>
+                        <td>{{sum6}}</td>
                        </tr>
 
                     </table>

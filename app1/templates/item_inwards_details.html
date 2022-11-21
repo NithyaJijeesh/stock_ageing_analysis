@@ -72,67 +72,49 @@
                             <tr  class="p-2">
                               <th colspan="9" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2) ; border-right:none ;">
                                 <div>
-                                <div >Stock Item : {{group.name}}</div>
+                                <div >Stock Item : Shampoo</div>
                                 </div>
                                 
                                  </th>
                               <th colspan="9" class="text-right" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2);border-left:none ;">                           
                                 
                                 <div >open date to 1-April-2022</div>
-                                <div >Valued based on actual purchase</div>
                           </th>
                           </tr>
                           
                           <tr class="p-2 text-center mt-5" >
-                            <th colspan="6" class="text-center" rowspan="3">Particulars</th>
-                            <th colspan="2"class="text-center" rowspan="3">Expiry date</th>
-                              <th >Total</th>
-                              <th colspan="2" > ( <45 days ) </th>
-                              <th colspan="2" >45 to 90 days</th>
-                              <th colspan="2" >90 to 180 days</th>
-                              <th colspan="2" >( >180 days )</th>
-                              <th>Negative Stock</th>
+                            <th class="text-center" rowspan="2">Date</th>
+                            <th colspan="8"  class="text-center" rowspan="2">Particulars</th>
+                            <th colspan = '2' class="text-right" rowspan="2">Voucher Type</th>                            
+                            <th  colspan = '2' class="text-right" rowspan="2">Voucher No.</th>
+                            <th colspan="6" class="text-center"><b><em>Inwards</em></b></th>
 
+                             
                           </tr>
 
                           <tr class="p-2 text-center" style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                               <th >Quantity</th>
-                              <th >Qauntity </th>
+                              <th >Rate </th>
                               <th >Value </th>
-                              <th>Qauntity </th>
-                              <th>Value </th>
-                              <th>Qauntity </th>
-                              <th>Value </th>
-                              <th>Qauntity </th>
-                              <th>Value </th>
-                              <th>Qauntity </th>
-
+                              
                           </tr>
                              
                               <tbody class="border-dark">
                                 {% for i in item %}
                                   <tr>
-                                    <td colspan="6"><a href="{% url 'stock_monthly' i.id %}" class="text-decoration-none text-white">{{i.name}}</a></td>
-                                    <td colspan="2">{{i.expirydate}}</td>
                                     
-                                    <td><a href="{% url 'stock_monthly' i.id %}">{{i.quantity}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' %}">{{i.quantity}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards'%}">{{i.value}}</a></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td class="text-left"><a href="{% url 'item_inwards' %}">{{i.quantity}} {{i.units}}</a></td>
+                                    <td class="text-left"><a href="{% url 'item_inwards'%}">{{i.value}}</a></td>
+                                    <td class="text-right"></td>
+                                    <td class="text-right"></td>
+                                    
                                   </tr>
                                 {% endfor %}
                               </tbody>
                               <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                                 <tr>
-                                    <td  colspan="8" class="text-center">Grand Total</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{{ sum1 }}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{{ sum2 }}</td>
+                                    <td  colspan="12" class="text-left">Total as per 'Default' valuation</td>
+                                    
                                     <td></td>
                                     <td></td>
                                     <td></td>
