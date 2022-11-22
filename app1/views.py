@@ -5459,10 +5459,11 @@ def stock_items_creation(request):
             rate=request.POST['rate']
             per=request.POST['per']
             value=request.POST['value']
+            #g = stockgroupcreation.objects.get(id = under)
             
                      
             crt=stock_itemcreation(name=nm,alias=alias,under=under,units=units,batches=batches,trackdate=trackdate,expirydate=expirydate,typ_sply=typ_sply,
-            gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value )
+            gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value)#,group=g )
             crt.save()
             
             
@@ -10265,7 +10266,7 @@ def stock_ageing(request,pk):
 
         grp =stockgroupcreation.objects.get(id=pk)
 
-        item = stock_itemcreation.objects.filter(under = grp.name)
+        item = stock_itemcreation.objects.all()
         
         vouch = stock_item_voucher.objects.filter(group_id = grp.id)
 
@@ -10317,7 +10318,7 @@ def stock_monthly(request,pk):
 
         return render(request,'stock_item_monthly_summary.html',context)
 
-def stock_item_vouchers(request,pk):
+def stock_item_vouchers(request,pk,id):
 
     if 't_id' in request.session:
         if request.session.has_key('t_id'):
@@ -10326,8 +10327,11 @@ def stock_item_vouchers(request,pk):
             return redirect('/')
 
         comp = Companies.objects.get(id= t_id)
-        months = fmonths.objects.get(id = pk)
-        vouch = stock_item_voucher.objects.filter(month_id = months.id)
+        months = fmonths.objects.get(id = id)
+        item = stock_itemcreation.objects.get(id = pk)
+        vouch = stock_item_voucher.objects.all(item_id = item.id)
+
+        #       vouch = stock_item_voucher.objects.filter(month_id = months.id)
 
 
         for v in vouch:    

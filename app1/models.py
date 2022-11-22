@@ -1,6 +1,7 @@
 from operator import truediv
 from django.db import models
 from re import T
+from django.utils import timezone
 
 import app1
 
@@ -1688,5 +1689,5 @@ class stock_item_voucher(models.Model):
     closing_qty = models.IntegerField(null = True,blank=True)
     closing_val = models.IntegerField(null = True,blank=True)
 
-
+    
 

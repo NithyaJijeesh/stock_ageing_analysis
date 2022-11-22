@@ -83,7 +83,7 @@
                     <div class="col-sm-7 m-0 p-0"></div>
                 </div>
             </div>
-            {{g}}
+            
             <div class="row container-fluid  p-0 m-0" style=" border: 1px solid rgba(128, 128, 128, 0.6);">
                 <div class="col-sm-6 m-0 p-4" style=" border-right: 1px solid rgba(128, 128, 128, 0.6);">
                     <h5 class="text-center">General</h5>
@@ -92,11 +92,12 @@
                         <div class="col-sm-6 m-0 p-0"></div>
                     </div>
                     <div class="row container-fluid  p-2">
-                        <div class="col-sm-6 m-0 p-0"><label for="e">Under</label></div>
+                        <div class="col-sm-6 m-0 p-0"><label for="e" >Under</label></div>
                         <div class="col-sm-6 m-0 p-0">
                             <input type="text" name="under" id="under" value="Primary" class="form-control" onclick="showform();">
                         </div>
                     </div>
+                    
                     <div class="row container-fluid  p-2">
                         <div class="col-sm-6 m-0 p-0"> <label for="e">Units</label></div>
                         <div class="col-sm-6 m-0 p-0">
@@ -243,7 +244,7 @@
                         <option onclick="setPrimary()" class="btns_prnt">&nbsp;&nbsp;Primary</option>
 
                         {% for co in grp %}
-                        <option onclick="setvalue(' {{co.name}} ','{{co.id}}')" class="btns_prnt">&nbsp;&nbsp;{{ co.name }}</option>
+                        <option onclick="setvalue('{{co.name}}','{{co.id}}')" class="btns_prnt">&nbsp;&nbsp;{{co.name}}</option>
                         {% endfor %}
                     </tr>
                 </table>
