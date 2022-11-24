@@ -10270,11 +10270,22 @@ def stock_ageing(request,pk):
         
         vouch = stock_item_voucher.objects.filter(group_id = grp.id)
 
+        d = []
+        for v in vouch:
+
+           d.append((v.date-date.today()).days)
+        
+        #for i in range(len(d)):
+            #if d[i] < 45:
+        dd = range(0,len(d))
+
         context = {
                     'company' : comp,
                     'group': grp,
                     'item'  :item,
                     'voucher' : vouch,
+                    'd':d,
+                    'dd': dd,
                 }
         
         return render(request,'stock_ageing_analysis.html',context)

@@ -73,7 +73,7 @@
                                 <div >Valued based on actual purchase</div>
                           </th>
                           </tr>
-                        
+                        {{d[0]}}
                           <tr class="p-2 text-center mt-5" >
                             <th colspan="8" class="text-center" rowspan="2">Particulars</th>
                             <th colspan="2"class="text-center" rowspan="2">Expiry date</th>
@@ -107,11 +107,51 @@
                                     <td colspan="2" class="text-center">{{i.expirydate}}</td>
                                     
                                     <td><a href="{% url 'stock_monthly' i.id %}">{{i.quantity}} {{i.units}}</a></td>
+
+                                    {% for j in dd %}
+                                    {% if d[j] < 45%}
                                     <td><a href="{% url 'item_inwards'%}">{{i.quantity}} {{i.units}}</a></td>
                                     <td><a href="{% url 'item_inwards'%}">{{i.value}}</a></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    
+                                    {% elif d[j] >= 45 | d[j] < 90 %}
+                                    <td></td>
+                                    <td></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{i.quantity}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{i.value}}</a></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    {% elif d[j] >= 90 | d[j] < 180 %}
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{i.quantity}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{i.value}}</a></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    {% elif d[j] >= 180 %}
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{i.quantity}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{i.value}}</a></td>
+                                    <td></td>
+                                    {% endif%}
+                                    {% endfor %}
                                   </tr>
                                 {% endfor %}
                               </tbody>
