@@ -10275,55 +10275,70 @@ def stock_ageing(request,pk):
             d.append((date.today()-v.date).days)
 
         d1=d2=d3=d4=neg = []
-        for v in vouch:
-            for i in item:
-                if i.id == v.item_id:
+        q1=q2=q3=q4=v1=v2=v3=v4=0
 
-                    q1=q2=q3=q4=v1=v2=v3=v4=0
-                    days1 = (v.date-date.today()).days
 
-                    open_qty = 0 if int(i.quantity) is None else int(i.quantity)
-                    open_val = 0 if int(i.value) is None else int(i.value)
-                    in_qty = 0 if v.inwards_qty is None else v.inwards_qty
-                    in_value = 0 if v.inwards_val is None else v.inwards_val
-                    out_qty = 0 if v.outwards_qty is None else v.outwards_qty
-                    out_value = 0 if v.outwards_val is None else v.outwards_val
+        for i in item:
 
-                    if days1 < 45:
-                        q1 += open_qty+in_qty-out_qty
-                        v1 += open_val+in_value-out_value
+            for v in vouch:
+
+                in_qty = 0 if v.inwards_qty is None else v.inwards_qty
+                in_value = 0 if v.inwards_val is None else v.inwards_val
+                out_qty = 0 if v.outwards_qty is None else v.outwards_qty
+                out_value = 0 if v.outwards_val is None else v.outwards_val
+
+                days1 = (date.today()-v.date).days
+
+                open_qty = int(i.quantity)
+                open_val = int(i.value)
+
+                if v.item_id is not None:
+
+                
+                    #if i.id == v.item_id:
+
+
+                        if days1 < 45:
+
+                            q1 += open_qty
+                            v1 += open_val
+                            d1.append(q1)
+                            d1.append(v1)
+                                
+
+                        elif days1 >= 45 & days1 < 90:
+                            q2 += q1+in_qty-out_qty
+                            v2 += v1+in_value-out_value
+                            d1.append(q2)
+                            d1.append(v2)
+                                
+
+                        elif days1 >=90 & days1 < 180:
+                            q3 += q2+in_qty-out_qty
+                            v3 += v2+in_value-out_value
+                            d1.append(q3)
+                            d1.append(v3)       
+
+                        else:
+                            q4 +=q3+in_qty-out_qty
+                            v4 += v3+in_value-out_value
+                            d1.append(q4)
+                            d1.append(v4)
+
+
+                        if (open_qty+in_qty-out_qty) < 0:
+                            negative_stock = q4+in_qty-out_qty
+                            neg.append(negative_stock)
+
+                
+
+                        
+                        
+                        
                         
 
-                    elif days1 >= 45 & days1 < 90:
-                        q2 += q1+in_qty-out_qty
-                        v2 += v1+in_value-out_value
                         
-
-                    elif days1 >=90 & days1 < 180:
-                        q3 += q2+in_qty-out_qty
-                        v3 += v2+in_value-out_value
-                        
-
-                    else:
-                        q4 +=q3+in_qty-out_qty
-                        v4 += v3+in_value-out_value
-                       
-
-
-                    if (open_qty+in_qty-out_qty) < 0:
-                        negative_stock = q4+in_qty-out_qty
-                        neg.append(negative_stock)
-        d1.append(q1)
-        d1.append(v1)
-        d2.append(q2)
-        d2.append(v2)
-        d3.append(q3)
-        d3.append(v3)
-        d4.append(q4)
-        d4.append(v4)
-
-                        
-        dd = range(0,len(d)-1)
+        #dd = range(0,len(d)-1)
 
         context = {
                     'company' : comp,
@@ -10331,11 +10346,13 @@ def stock_ageing(request,pk):
                     'item'  :item,
                     'voucher' : vouch,
                     'd1':d1,
-                    'd2':d2,
-                    'd3':d3,
-                    'd4':d4,
+                    #'d2':d2,
+                    #'d3':d3,
+                    #'d4':d4,
                     'neg':neg,
                     'd': d,
+                    'openqty': open_qty,
+                    'openval':open_val,
                 }
         
         return render(request,'stock_ageing_analysis.html',context)

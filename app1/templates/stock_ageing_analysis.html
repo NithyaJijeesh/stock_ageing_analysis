@@ -73,7 +73,7 @@
                                 <div >Valued based on actual purchase</div>
                           </th>
                           </tr>
-                        {{d1}}{{d2}}{{d3}}{{d4}}{{neg}}{{d}}
+                        {{d1}}{{d}}
                           <tr class="p-2 text-center mt-5" >
                             <th colspan="8" class="text-center" rowspan="2">Particulars</th>
                             <th colspan="2"class="text-center" rowspan="2">Expiry date</th>
@@ -101,10 +101,14 @@
                           </tr>
                              
                               <tbody class="border-dark">
-                                {% for v in voucher %}
+
                                 {% for i in item %}
+                                {% for v in voucher %}
                                 
-                                {% if i.id == v.item_id%}
+
+                                {% if v.item_id is not None %}
+                                
+                                
                                 
                                   <tr>
                                     <td colspan="8"><a href="{% url 'stock_monthly' i.id %}" >{{i.name}}</a></td>
@@ -125,6 +129,25 @@
                                     
                                   </tr>
                                   
+                                  {% else %}
+                                  <tr>
+                                    <td colspan="8"><a href="{% url 'stock_monthly' i.id %}" >{{i.name}}</a></td>
+                                    <td colspan="2" class="text-center">{{i.expirydate}}</td>
+                                    
+                                    <td><a href="{% url 'stock_monthly' i.id %}">{{i.quantity}} {{i.units}}</a></td>
+                                    
+                                    <td><a href="{% url 'item_inwards'%}"></a></td>
+                                    <td><a href="{% url 'item_inwards'%}"></a></td>
+                                    <td><a href="{% url 'item_inwards'%}"></a></td>
+                                    <td><a href="{% url 'item_inwards'%}"></a></td>
+                                    <td><a href="{% url 'item_inwards'%}"></a></td>
+                                    <td><a href="{% url 'item_inwards'%}"></a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{openqty}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{openval}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}"></a></td>
+                                                                      
+                                    
+                                  </tr>
                                   {% endif %}
                                   {% endfor %}
                                 {% endfor %}
