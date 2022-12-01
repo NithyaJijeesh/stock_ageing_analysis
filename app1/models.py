@@ -1689,5 +1689,15 @@ class stock_item_voucher(models.Model):
     closing_qty = models.IntegerField(null = True,blank=True)
     closing_val = models.IntegerField(null = True,blank=True)
 
+
+class age_analysis(models.Model):
+    company = models.ForeignKey(Companies, on_delete = models.CASCADE,null = True)
+    group = models.ForeignKey(stockgroupcreation, on_delete = models.CASCADE,null = True)
+    item = models.ForeignKey(stock_itemcreation, on_delete = models.CASCADE,null = True)
+    voucher = models.ForeignKey(stock_item_voucher, on_delete = models.CASCADE,null = True)
+    days = models.IntegerField()
+    negative_stock = models.IntegerField()
+
+
     
 

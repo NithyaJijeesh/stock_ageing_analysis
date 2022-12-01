@@ -73,7 +73,7 @@
                                 <div >Valued based on actual purchase</div>
                           </th>
                           </tr>
-                        {{d1}}{{d}}
+                        {{d1}}{{d}}{{openqty}}
                           <tr class="p-2 text-center mt-5" >
                             <th colspan="8" class="text-center" rowspan="2">Particulars</th>
                             <th colspan="2"class="text-center" rowspan="2">Expiry date</th>
@@ -103,8 +103,7 @@
                               <tbody class="border-dark">
 
                                 {% for i in item %}
-                                {% for v in voucher %}
-                                
+                                                               
 
                                 {% if v.item_id is not None %}
                                 
@@ -149,7 +148,7 @@
                                     
                                   </tr>
                                   {% endif %}
-                                  {% endfor %}
+                                  
                                 {% endfor %}
                               </tbody>
                               <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">

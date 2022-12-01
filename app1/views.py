@@ -10270,7 +10270,7 @@ def stock_ageing(request,pk):
         
         vouch = stock_item_voucher.objects.filter(group_id = grp.id)
 
-        d = []
+        '''d = []
         for v in vouch:
             d.append((date.today()-v.date).days)
 
@@ -10330,29 +10330,21 @@ def stock_ageing(request,pk):
                             negative_stock = q4+in_qty-out_qty
                             neg.append(negative_stock)
 
-                
-
-                        
-                        
-                        
-                        
-
-                        
-        #dd = range(0,len(d)-1)
+        #dd = range(0,len(d)-1)'''
 
         context = {
                     'company' : comp,
                     'group': grp,
                     'item'  :item,
                     'voucher' : vouch,
-                    'd1':d1,
+                    #'d1':d1,
                     #'d2':d2,
                     #'d3':d3,
                     #'d4':d4,
-                    'neg':neg,
-                    'd': d,
-                    'openqty': open_qty,
-                    'openval':open_val,
+                    #'neg':neg,
+                    #'d': d,
+                    #'openqty': open_qty,
+                    #'openval':open_val,
                 }
         
         return render(request,'stock_ageing_analysis.html',context)
