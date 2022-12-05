@@ -10270,6 +10270,50 @@ def stock_ageing(request,pk):
         
         vouch = stock_item_voucher.objects.filter(group_id = grp.id)
 
+
+        for i in item:
+
+            
+            a = age_analysis.objects.filter(item_id = i.id).exists()
+            voucher = stock_item_voucher.objects.filter(item_id = i.id).exists()
+            #a1 =  age_analysis.objects.filter(item_id = i.id).get(voucher_id = None)
+
+            if voucher == True:
+
+                for v in vouch:
+
+                    age = age_analysis.objects.filter(voucher_id = v.id).exists()
+
+
+                    if age == False:
+                        #if a == True:
+                           # a1.delete()
+
+                        i = stock_itemcreation.objects.get(id = v.item_id)
+                        
+
+                        days1 = (date.today()-v.date).days
+
+                        age_analysis(company = comp, group = grp, item= i, voucher = v,days = days1).save()
+
+                        
+
+                        
+            else:
+                    
+                if a == False:
+                    days1 = (datetime.today()-datetime.strptime(i.trackdate,'%d-%m-%Y')).days
+                    age_analysis(company = comp, group = grp, item = i,days = days1).save()
+
+
+            analysis = age_analysis.objects.filter(item_id = i.id)
+
+            if analysis.days <  45:
+                
+
+                    
+
+
         '''d = []
         for v in vouch:
             d.append((date.today()-v.date).days)
