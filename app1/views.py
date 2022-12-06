@@ -10253,7 +10253,7 @@ def liststockgroups(request):
         context={'data':data}
         return render(request,'list_stock_group.html',context)
 
-
+from django.db.models import F,Q
 def stock_ageing(request,pk):
 
     if 't_id' in request.session:
@@ -10273,47 +10273,68 @@ def stock_ageing(request,pk):
 
         for i in item:
 
-            
             a = age_analysis.objects.filter(item_id = i.id).exists()
             voucher = stock_item_voucher.objects.filter(item_id = i.id).exists()
-            #a1 =  age_analysis.objects.filter(item_id = i.id).get(voucher_id = None)
-
+            d1= d2 = []
+            total_quantity = total_value = 0
             if voucher == True:
 
                 for v in vouch:
 
+                    in_qty = 0 if v.inwards_qty is None else v.inwards_qty
+                    in_value = 0 if v.inwards_val is None else v.inwards_val
+                    out_qty = 0 if v.outwards_qty is None else v.outwards_qty
+                    out_value = 0 if v.outwards_val is None else v.outwards_val
+
                     age = age_analysis.objects.filter(voucher_id = v.id).exists()
 
-
                     if age == False:
-                        #if a == True:
-                           # a1.delete()
 
                         i = stock_itemcreation.objects.get(id = v.item_id)
-                        
-
                         days1 = (date.today()-v.date).days
 
-                        age_analysis(company = comp, group = grp, item= i, voucher = v,days = days1).save()
+                        #age_analysis(company = comp, group = grp, item= i, voucher = v,days = days1).save()
 
-                        
+                        if days1 < 45:
+                            total_quantity += in_qty
+                            total_value += in_value
+                        elif days1 > 180:
+                            total_quantity = (in_qty-out_qty)
+                            total_value = (in_value-out_value)
 
-                        
+                        age_analysis(company = comp, group = grp, item= i, voucher = v,days = days1 , total_qty = total_quantity , total_val = total_value).save()
+                            
+                                    
             else:
                     
                 if a == False:
                     days1 = (datetime.today()-datetime.strptime(i.trackdate,'%d-%m-%Y')).days
-                    age_analysis(company = comp, group = grp, item = i,days = days1).save()
+                    age_analysis(company = comp, group = grp, item = i,days = days1,total_qty = i.quantity , total_val = i.value).save()
 
+        
 
-            analysis = age_analysis.objects.filter(item_id = i.id)
+            sum_qty = sum_val = 0
+            a1 = age_analysis.objects.filter( item_id = i.id) 
+            
 
-            if analysis.days <  45:
+            for a in a1:
                 
 
-                    
+                sum_qty += a.total_qty
+                sum_val += a.total_val
+                d1.append(sum_qty)
+                d1.append(sum_val) 
 
+            a2 = age_analysis.objects.filter(days__gt = 180)
+            for a in a2:
+                
 
+                sum_qty += a.total_qty
+                sum_val += a.total_val
+                d2.append(sum_qty)
+                d2.append(sum_val) 
+
+                
         '''d = []
         for v in vouch:
             d.append((date.today()-v.date).days)
@@ -10381,8 +10402,8 @@ def stock_ageing(request,pk):
                     'group': grp,
                     'item'  :item,
                     'voucher' : vouch,
-                    #'d1':d1,
-                    #'d2':d2,
+                    'd1':d1,
+                    'd2':d2,
                     #'d3':d3,
                     #'d4':d4,
                     #'neg':neg,

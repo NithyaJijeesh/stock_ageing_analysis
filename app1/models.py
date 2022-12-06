@@ -1696,6 +1696,8 @@ class age_analysis(models.Model):
     item = models.ForeignKey(stock_itemcreation, on_delete = models.CASCADE,null = True)
     voucher = models.ForeignKey(stock_item_voucher, on_delete = models.CASCADE,null = True)
     days = models.IntegerField(null=True,blank=True)
+    total_qty = models.IntegerField(null= True, blank= True)
+    total_val = models.IntegerField(null= True, blank=True)
     negative_stock = models.IntegerField(null=True,blank=True)
 
 
