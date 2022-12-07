@@ -10254,6 +10254,7 @@ def liststockgroups(request):
         return render(request,'list_stock_group.html',context)
 
 from django.db.models import F,Q
+from django.db.models import Sum
 def stock_ageing(request,pk):
 
     if 't_id' in request.session:
@@ -10268,18 +10269,20 @@ def stock_ageing(request,pk):
 
         item = stock_itemcreation.objects.all()
         
-        vouch = stock_item_voucher.objects.filter(group_id = grp.id)
+        voucher = stock_item_voucher.objects.filter(group_id = grp.id)
 
 
         for i in item:
 
             a = age_analysis.objects.filter(item_id = i.id).exists()
-            voucher = stock_item_voucher.objects.filter(item_id = i.id).exists()
-            d1= d2 = []
+            vouch = stock_item_voucher.objects.filter(item_id = i.id).exists()
+
+            d1= []
             total_quantity = total_value = 0
+
             if voucher == True:
 
-                for v in vouch:
+                for v in voucher:
 
                     in_qty = 0 if v.inwards_qty is None else v.inwards_qty
                     in_value = 0 if v.inwards_val is None else v.inwards_val
@@ -10293,123 +10296,72 @@ def stock_ageing(request,pk):
                         i = stock_itemcreation.objects.get(id = v.item_id)
                         days1 = (date.today()-v.date).days
 
-                        #age_analysis(company = comp, group = grp, item= i, voucher = v,days = days1).save()
 
                         if days1 < 45:
                             total_quantity += in_qty
                             total_value += in_value
-                        elif days1 > 180:
+
+                        elif days1 >= 45 and days1 < 90:
+                            total_quantity += in_qty
+                            total_value += in_value
+
+                        elif days1>= 90 and days1 < 180:
+                            total_quantity += in_qty
+                            total_value += in_value
+                        else:
                             total_quantity = (in_qty-out_qty)
                             total_value = (in_value-out_value)
 
                         age_analysis(company = comp, group = grp, item= i, voucher = v,days = days1 , total_qty = total_quantity , total_val = total_value).save()
                             
-                                    
             else:
                     
                 if a == False:
                     days1 = (datetime.today()-datetime.strptime(i.trackdate,'%d-%m-%Y')).days
                     age_analysis(company = comp, group = grp, item = i,days = days1,total_qty = i.quantity , total_val = i.value).save()
 
-        
+            
+            
+            a1_qty =  age_analysis.objects.filter(days__lt = 45).aggregate(Sum('total_qty'))['total_qty__sum']
+            a1_val = age_analysis.objects.filter(days__lt = 45).aggregate(Sum('total_val'))['total_val__sum']
+            qty = '' if a1_qty is None else a1_qty
+            val = '' if a1_val is None else a1_val
+            d1.append(qty)
+            d1.append(val)
 
-            sum_qty = sum_val = 0
-            a1 = age_analysis.objects.filter( item_id = i.id) 
+            a1_qty =  age_analysis.objects.filter(days__range = (45,90)).aggregate(Sum('total_qty'))['total_qty__sum']
+            a1_val = age_analysis.objects.filter(days__range = (45,90)).aggregate(Sum('total_val'))['total_val__sum']
+            qty = '' if a1_qty is None else a1_qty
+            val = '' if a1_val is None else a1_val
+            d1.append(qty)
+            d1.append(val)
+
+            a1_qty =  age_analysis.objects.filter(days__range = (90,180)).aggregate(Sum('total_qty'))['total_qty__sum']
+            a1_val = age_analysis.objects.filter(days__range = (90,180)).aggregate(Sum('total_val'))['total_val__sum']
+            qty = '' if a1_qty is None else a1_qty
+            val = '' if a1_val is None else a1_val
+            d1.append(qty)
+            d1.append(val)
+
             
 
-            for a in a1:
+            a1_qty =  age_analysis.objects.filter(days__gt = 180).aggregate(Sum('total_qty'))['total_qty__sum']
+            a1_val = age_analysis.objects.filter(days__gt = 180).aggregate(Sum('total_val'))['total_val__sum']
+            qty = '' if a1_qty is None else a1_qty
+            val = '' if a1_val is None else a1_val
+            d1.append(qty)
+            d1.append(val)
                 
-
-                sum_qty += a.total_qty
-                sum_val += a.total_val
-                d1.append(sum_qty)
-                d1.append(sum_val) 
-
-            a2 = age_analysis.objects.filter(days__gt = 180)
-            for a in a2:
-                
-
-                sum_qty += a.total_qty
-                sum_val += a.total_val
-                d2.append(sum_qty)
-                d2.append(sum_val) 
-
-                
-        '''d = []
-        for v in vouch:
-            d.append((date.today()-v.date).days)
-
-        d1=d2=d3=d4=neg = []
-        q1=q2=q3=q4=v1=v2=v3=v4=0
-
-
-        for i in item:
-
-            for v in vouch:
-
-                in_qty = 0 if v.inwards_qty is None else v.inwards_qty
-                in_value = 0 if v.inwards_val is None else v.inwards_val
-                out_qty = 0 if v.outwards_qty is None else v.outwards_qty
-                out_value = 0 if v.outwards_val is None else v.outwards_val
-
-                days1 = (date.today()-v.date).days
-
-                open_qty = int(i.quantity)
-                open_val = int(i.value)
-
-                if v.item_id is not None:
-
-                
-                    #if i.id == v.item_id:
-
-
-                        if days1 < 45:
-
-                            q1 += open_qty
-                            v1 += open_val
-                            d1.append(q1)
-                            d1.append(v1)
-                                
-
-                        elif days1 >= 45 & days1 < 90:
-                            q2 += q1+in_qty-out_qty
-                            v2 += v1+in_value-out_value
-                            d1.append(q2)
-                            d1.append(v2)
-                                
-
-                        elif days1 >=90 & days1 < 180:
-                            q3 += q2+in_qty-out_qty
-                            v3 += v2+in_value-out_value
-                            d1.append(q3)
-                            d1.append(v3)       
-
-                        else:
-                            q4 +=q3+in_qty-out_qty
-                            v4 += v3+in_value-out_value
-                            d1.append(q4)
-                            d1.append(v4)
-
-
-                        if (open_qty+in_qty-out_qty) < 0:
-                            negative_stock = q4+in_qty-out_qty
-                            neg.append(negative_stock)
-
-        #dd = range(0,len(d)-1)'''
+            analysis = age_analysis.objects.filter(item_id = i.id)
 
         context = {
                     'company' : comp,
                     'group': grp,
                     'item'  :item,
-                    'voucher' : vouch,
-                    'd1':d1,
-                    'd2':d2,
-                    #'d3':d3,
-                    #'d4':d4,
-                    #'neg':neg,
-                    #'d': d,
-                    #'openqty': open_qty,
-                    #'openval':open_val,
+                    'voucher' : voucher,
+                    'd1': d1,
+                    'vouch':vouch,
+                    'analysis' : analysis,
                 }
         
         return render(request,'stock_ageing_analysis.html',context)
@@ -10453,7 +10405,7 @@ def stock_monthly(request,pk):
 
         return render(request,'stock_item_monthly_summary.html',context)
 
-def stock_item_vouchers(request,pk,id):
+def stock_item_vouchers(request,pk,mid):
 
     if 't_id' in request.session:
         if request.session.has_key('t_id'):
@@ -10462,12 +10414,9 @@ def stock_item_vouchers(request,pk,id):
             return redirect('/')
 
         comp = Companies.objects.get(id= t_id)
-        months = fmonths.objects.get(id = id)
+        months = fmonths.objects.get(id = mid)
         item = stock_itemcreation.objects.get(id = pk)
         vouch = stock_item_voucher.objects.all(item_id = item.id)
-
-        #       vouch = stock_item_voucher.objects.filter(month_id = months.id)
-
 
         for v in vouch:    
 
@@ -10484,8 +10433,7 @@ def stock_item_vouchers(request,pk,id):
             
         context = {
                     'company' : comp,
-                    #'item' : item,
-                    #'group': vgroup ,
+                    'item' : item,
                     'vouch' : vouch,
                     'months' : months,
                     #'qty':qty,

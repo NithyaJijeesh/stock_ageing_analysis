@@ -91,7 +91,7 @@ cursor:pointer;
                  
                             <tr class="table-row" data-href="">
                               
-                                <td> <a href="{% url 'stock_item_vouchers' m.id %}">{{m.month_name }}</a> </td>
+                                <td> <a href="{% url 'stock_item_vouchers' item.id m.id %}">{{m.month_name}}</a> </td>
 
                                 {% if m.month_name == i%}
 

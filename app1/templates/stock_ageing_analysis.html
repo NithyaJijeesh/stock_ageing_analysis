@@ -73,8 +73,8 @@
                                 <div >Valued based on actual purchase</div>
                           </th>
                           </tr>
-                        {{d1}}{{d2}}
-                          <tr class="p-2 text-center mt-5" >
+                        
+                            <tr class="p-2 text-center mt-5" >
                             <th colspan="8" class="text-center" rowspan="2">Particulars</th>
                             <th colspan="2"class="text-center" rowspan="2">Expiry date</th>
                               <th >Total</th>
@@ -104,25 +104,26 @@
 
                                 {% for i in item %}
                                                                
-
-                                {% if v.item_id is not None %}
+                                {% for a in analysis %}
                                 
+                                {% if a.voucher_id is not null %}
                                 
-                                
+                                                     
                                   <tr>
                                     <td colspan="8"><a href="{% url 'stock_monthly' i.id %}" >{{i.name}}</a></td>
                                     <td colspan="2" class="text-center">{{i.expirydate}}</td>
                                     
                                     <td><a href="{% url 'stock_monthly' i.id %}">{{i.quantity}} {{i.units}}</a></td>
                                     
-                                    <td><a href="{% url 'item_inwards'%}">{{d1}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards'%}">{{d1}}</a></td>
-                                    <td><a href="{% url 'item_inwards'%}">{{d2}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards'%}">{{d2}}</a></td>
-                                    <td><a href="{% url 'item_inwards'%}">{{d3}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards'%}">{{d3}}</a></td>
-                                    <td><a href="{% url 'item_inwards'%}">{{d4}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards'%}">{{d4}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{d1.0}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{d1.1}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{d1.2}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{d1.3}}</a></td>
+                                    
+                                    <td><a href="{% url 'item_inwards'%}">{{d1.4}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{d1.5}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{d1.6}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{d1.7}}</a></td>
                                     <td><a href="{% url 'item_inwards'%}">{{neg}}</a></td>
                                                                       
                                     
@@ -141,14 +142,14 @@
                                     <td><a href="{% url 'item_inwards'%}"></a></td>
                                     <td><a href="{% url 'item_inwards'%}"></a></td>
                                     <td><a href="{% url 'item_inwards'%}"></a></td>
-                                    <td><a href="{% url 'item_inwards'%}">{{openqty}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards'%}">{{openval}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{a.total_qty}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards'%}">{{a.total_val}}</a></td>
                                     <td><a href="{% url 'item_inwards'%}"></a></td>
                                                                       
                                     
                                   </tr>
                                   {% endif %}
-                                  
+                                  {% endfor %}
                                 {% endfor %}
                               </tbody>
                               <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
