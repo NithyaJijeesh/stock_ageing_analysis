@@ -16,13 +16,12 @@
                     <table class="table table-bordered border-dark " style="background-color: rgba(33,57,77,255);color:#fff;">
 
                        <tr>
-                        <th colspan="7" >Stock Item : {{ vouch.item.name }}</th>
+                        <th colspan="7" >Stock Item : {{item.name }}</th>
                         <th colspan="7" class="text-right">1-april-2022 to 30-april-2022</th>
                        </tr>
                        <tr>
                         <th rowspan="2"> Date</th>
                         <th colspan="6" rowspan="2">Particulars</th>
-                        
                         <th colspan="2" class="text-center">Inwards</th>
                         <th colspan="2"  class="text-center">Outwards</th>
                         <th colspan="2" class="text-center">Closing</th>
@@ -38,15 +37,14 @@
                       </tr>
 
                        <tr class="">
-                        
-                        <td colspan="7" class="text-left"><i> Opening Balance</i></td>
-                        <td>{{vouch.item.quantity}}</td>
-                        <td>{{vouch.item.value}}</td>
-                       
-                        <td>{{vouch.item.quantity}}</td>
-                        <td>{{vouch.item.value}}</td> 
+                        <td></td>
+                        <td colspan="6" class="text-left"><i> Opening Balance</i></td>
+                        <td>{{item.quantity}} {{item.units}}</td>
+                        <td>{{item.value}}</td>
                         <td></td>
                         <td></td>
+                        <td>{{item.quantity}} {{item.units}}</td>
+                        <td>{{item.value}}</td> 
                         
                         
                        </tr>
@@ -56,11 +54,11 @@
                         <td >{{v.date}}</td>
                         <td colspan="6">{{v.Particulars}}</td>
                         
-                        <th>{{v.inwards_qty}}</th>
+                        <th>{{v.inwards_qty}} {{item.units}}</th>
                         <th>{{v.inwards_val}}</th>
-                        <th>{{v.outwards_qty}}</th>
+                        <th>{{v.outwards_qty}} {{item.units}}</th>
                         <th>{{v.outwards_val}}</th>
-                        <th>{{v.closing_qty}}</th>
+                        <th>{{v.closing_qty}} {{item.units}}</th>
                         <th>{{v.closing_val}}</th> 
                        </tr>
                        {% endfor %}
