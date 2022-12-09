@@ -69,7 +69,6 @@ cursor:pointer;
                               </tr>
 
                         </thead>
-
                         <tbody>
                             <tr class="table-row">
                                 <td ><i>Opening Balance</i></td>
@@ -85,16 +84,15 @@ cursor:pointer;
 
                             </tr>
 
-                            
-                            {% for v in voucher %}
                             {% for m in months %}
-                            {% for i in d1 %}
-                 
+                            {% for v in voucher %}
+                            
+                            
                             <tr class="table-row" data-href="">
                               
                                 <td> <a href="{% url 'stock_item_vouchers' item.id m.id %}">{{m.month_name}}</a> </td>
 
-                                {% if m.month_name == i%}
+                                {% if m.month_name in d1 %}
 
                                 <td class="text-center"></td>
                                 <td class="text-center"></td>
@@ -122,7 +120,7 @@ cursor:pointer;
 
 
                             </tr>
-                            {% endfor %}
+                            
                             {% endfor %}
                             {% endfor %}
                             
