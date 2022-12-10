@@ -92,24 +92,35 @@
                              
                           </tr>
 
-                          <tr class="p-2 text-center" style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
+                          <tr class="p-2 text-center" >
                               <th >Quantity</th>
                               <th >Rate </th>
                               <th >Value </th>
                               
                           </tr>
+                          <tbody>
+                          <tr class="p-2 text-center mt-5" >
+                            <td class="text-center" rowspan="2">{{item.trackdate}}</td>
+                            <td colspan="8"  class="text-center" rowspan="2"><em>Open Balance</em></td>
+                            <td colspan = '2' class="text-right" rowspan="2"></td>                            
+                            <td  colspan = '2' class="text-right" rowspan="2"></td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.rate}}</td>
+                            <td>{{item.value}}</td>
+
+                          </tr>
                              
-                              <tbody class="border-dark">
-                                {% for i in item %}
+                              
+                                
                                   <tr>
                                     
-                                    <td class="text-left"><a href="{% url 'item_inwards' %}">{{i.quantity}} {{i.units}}</a></td>
-                                    <td class="text-left"><a href="{% url 'item_inwards'%}">{{i.value}}</a></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
                                     <td class="text-right"></td>
                                     <td class="text-right"></td>
                                     
                                   </tr>
-                                {% endfor %}
+                             
                               </tbody>
                               <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                                 <tr>

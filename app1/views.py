@@ -10267,61 +10267,52 @@ def stock_ageing(request,pk):
 
         grp =stockgroupcreation.objects.get(id=pk)
 
-        item = stock_itemcreation.objects.all()
+        item = stock_itemcreation.objects.values()
         
-        voucher = stock_item_voucher.objects.filter(group_id = grp.id)
 
 
         for i in item:
 
-            a = age_analysis.objects.filter(item_id = i.id).exists()
-            vouch = stock_item_voucher.objects.filter(item_id = i.id).exists()
+            #a = age_analysis.objects.filter(item_id = i.id).exists()
+            vouch = stock_item_voucher.objects.filter(item_id = i['id']).values()
 
-            d1= d2 = []
             total_quantity = total_value = 0
 
-            if vouch == True:
-
-                for v in voucher:
+            
+            for v in vouch:
 
                     in_qty = 0 if v.inwards_qty is None else v.inwards_qty
                     in_value = 0 if v.inwards_val is None else v.inwards_val
                     out_qty = 0 if v.outwards_qty is None else v.outwards_qty
                     out_value = 0 if v.outwards_val is None else v.outwards_val
 
-                    age = age_analysis.objects.filter(voucher_id = v.id).exists()
-
-                    if age == False:
-
-                        i = stock_itemcreation.objects.get(id = v.item_id)
-                        days1 = (date.today()-v.date).days
+                    i = stock_itemcreation.objects.get(id = v.item_id)
+                    days1 = (date.today()-v.date).days
 
 
-                        if days1 < 45:
-                            total_quantity += in_qty
-                            total_value += in_value
+                    if days1 < 45:
+                        total_quantity += in_qty
+                        total_value += in_value
 
-                        elif days1 >= 45 and days1 < 90:
-                            total_quantity += in_qty
-                            total_value += in_value
+                    elif days1 >= 45 and days1 < 90:
+                        total_quantity += in_qty
+                        total_value += in_value
 
-                        elif days1>= 90 and days1 < 180:
-                            total_quantity += in_qty
-                            total_value += in_value
-                        else:
-                            total_quantity = (in_qty-out_qty)
-                            total_value = (in_value-out_value)
+                    elif days1>= 90 and days1 < 180:
+                        total_quantity += in_qty
+                        total_value += in_value
+                    else:
+                        total_quantity = (in_qty-out_qty)
+                        total_value = (in_value-out_value)
 
-                        age_analysis(company = comp, group = grp, item= i, voucher = v,days = days1 , total_qty = total_quantity , total_val = total_value).save()
+                        #age_analysis(company = comp, group = grp, item= i, voucher = v,days = days1 , total_qty = total_quantity , total_val = total_value).save()
                             
-            else:
+            '''            else:
                     
                 if a == False:
                     days1 = (datetime.today()-datetime.strptime(i.trackdate,'%d-%m-%Y')).days
                     age_analysis(company = comp, group = grp, item = i,days = days1,total_qty = i.quantity , total_val = i.value).save()
-
-            
-            if age == True:
+             if age == True:
 
                 a1_qty =  age_analysis.objects.filter(days__lt = 45).aggregate(Sum('total_qty'))['total_qty__sum']
                 a1_val = age_analysis.objects.filter(days__lt = 45).aggregate(Sum('total_val'))['total_val__sum']
@@ -10350,19 +10341,15 @@ def stock_ageing(request,pk):
                 d1.extend([qty,val])
                 
             #analysis = age_analysis.objects.filter(item_id = i.id)
-            analysis = (age_analysis.objects.values('item_id').order_by()).distinct()
+            analysis = (age_analysis.objects.values('item_id').order_by()).distinct()'''
+
+            #i['totalval_45'] = val_45
         
-            
-        context = {
+            context = {
                     'company' : comp,
                     'group': grp,
                     'item'  :item,
-                    'voucher' : voucher,
-                    'd1': d1,
-                    'vouch':vouch,
-                    'analysis' : analysis,
-                    'age' : age,
-                    #'d2' : d2,
+                    'voucher':vouch,
                 }
         
         return render(request,'stock_ageing_analysis.html',context)
@@ -10400,7 +10387,7 @@ def stock_monthly(request,pk):
         for v in voucher:
             '''in_qty = 0 if v.inwards_qty is None else v.inwards_qty
             in_value = 0 if v.inwards_val is None else v.inwards_val
-            out_qty = 0 if v.outwards_qty is None else v.outwards_qty
+            out_qty = 0 if v.outwards_qty is None else v.outwards_ qty
             out_value = 0 if v.outwards_val is None else v.outwards_val'''
             if v.month_name in d1:
                 i_qty =  stock_item_voucher.objects.filter(month_name = d1).aggregate(Sum('inwards_qty'))['inwards_qty__sum']
@@ -10478,7 +10465,7 @@ def stock_item_vouchers(request,pk,mid):
     
         return render(request,'stock_item_voucher.html',context)
 
-def item_inwards(request):
+def item_inwards(request,pk):
 
     if 't_id' in request.session:
         if request.session.has_key('t_id'):
@@ -10488,12 +10475,12 @@ def item_inwards(request):
 
         comp = Companies.objects.get(id=t_id)
         #group = stockgroupcreation.objects.get(id=pk)
-        #item = stock_itemcreation.objects.get(id = pk)
+        item = stock_itemcreation.objects.get(id = pk)
 
 
 
         context = {'company' : comp ,
-                    #'item' : item ,
+                    'item' : item ,
 
                   }
         return render(request,'item_inwards_details.html',context)
