@@ -85,7 +85,6 @@
                               <th>Negative Stock</th>
 
                           </tr>
-
                           <tr class="p-2 text-center" style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                               <th >Quantity</th>
                               <th >Qauntity </th>
@@ -102,59 +101,60 @@
                              
                               <tbody class="border-dark">
 
-                                
-                                                               
-                                {% for a in analysis %}
-                                
-                                {% if a.voucher_id != None %}
-                                
+                                                       
                                 {% for i in item %}        
                                   <tr>
                                     <td colspan="8"><a href="{% url 'stock_monthly' i.id %}" >{{i.name}}</a></td>
-                                    <td colspan="2" class="text-center">{{i.expirydate}}</td>
+                                    {% if i.expirydate == 'No' %}<td colspan="2" class="text-center"></td>
+                                    {% else %}<td colspan="2" class="text-center"> {{i.expirydate}}</td>{% endif %}
                                     
-                                    <td><a href="{% url 'stock_monthly' i.id %}">{{i.quantity}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'stock_monthly' i.id %}">{{i.Total}} {{i.units}}</a></td>
+
+                                    {% if i.totalqty_45 > 0 %}
                                     
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{d1.0}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{d1.1}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{d1.2}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{d1.3}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{d1.4}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{d1.5}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{d1.6}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{d1.7}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{neg}}</a></td>
-                                                                      
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalqty_45}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalval_45}}</a></td>
+                                    {% else %}
+                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    {% endif %}
+
+                                    {% if i.totalqty_45_90 > 0 %}
                                     
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalqty_45_90}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalval_45_90}}</a></td>
+                                    {% else %}
+                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    {% endif %}
+                                    
+                                    {% if i.totalqty_90_180 > 0 %}
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalqty_90_180}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalval_90_180}}</a></td>
+                                    {% else %}
+                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    {% endif %}
+                                    
+                                    {% if i.totalqty_gt_180 > 0 %}
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalqty_gt_180}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalval_gt_180}}</a></td>
+                                    {% else %}
+                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    {% endif %}
+
+                                    {% if i.negative_stock < 0 %}
+
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.negative_stock}} {{i.units}}</a></td>
+                                    {% else %}                                
+                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    {% endif %}
+
                                   </tr>
                                   {% endfor %}
 
-                                  {% else %}
-                                  
-                                  {% for i in item %}        
-                                  <tr>
-                                  <tr>
-                                    <td colspan="8"><a href="{% url 'stock_monthly' i.id %}" >{{i.name}}</a></td>
-                                    <td colspan="2" class="text-center">{{i.expirydate}}</td>
-                                    
-                                    <td><a href="{% url 'stock_monthly' i.id %}">{{i.quantity}} {{i.units}}</a></td>
-                                    
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{a.total_qty}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{a.total_val}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                                                      
-                                    
-                                  </tr>
-                                  {% endfor %}
-                                  {% endif %}
-                                  
-                                {% endfor %}
+                             
                               </tbody>
                               <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                                 <tr>

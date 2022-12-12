@@ -10273,83 +10273,161 @@ def stock_ageing(request,pk):
 
         for i in item:
 
-            #a = age_analysis.objects.filter(item_id = i.id).exists()
-            vouch = stock_item_voucher.objects.filter(item_id = i['id']).values()
+            voucher = stock_item_voucher.objects.filter(item_id = i['id'])
 
-            total_quantity = total_value = 0
-
+            purchase_lt_45_qty = sales_lt_45_qty = purchase_lt_45_val = sales_lt_45_val = 0
+            purchase_45_90_qty = sales_45_90_qty = purchase_45_90_val = sales_45_90_val = 0
+            purchase_90_180_qty = sales_90_180_qty = purchase_90_180_val = sales_90_180_val = 0
+            purchase_gt_180_qty = sales_gt_180_qty =purchase_gt_180_val = sales_gt_180_val= 0
             
-            for v in vouch:
 
-                    in_qty = 0 if v.inwards_qty is None else v.inwards_qty
-                    in_value = 0 if v.inwards_val is None else v.inwards_val
-                    out_qty = 0 if v.outwards_qty is None else v.outwards_qty
-                    out_value = 0 if v.outwards_val is None else v.outwards_val
+            total_qty_lt_45 = total_val_lt_45 = total_qty_45_90 = total_val_45_90 = total_qty_90_180 = 0
+            total_val_90_180 =total_qty_gt_180 = total_val_gt_180 = total_sales_qty = total_sales_val = 0
+            negative_stock = Total = 0
 
-                    i = stock_itemcreation.objects.get(id = v.item_id)
+            if voucher.exists():
+            
+                for v in voucher:
+
                     days1 = (date.today()-v.date).days
 
 
                     if days1 < 45:
-                        total_quantity += in_qty
-                        total_value += in_value
+                        if v.Voucher_type == 'Purchase':
+
+                            purchase_lt_45_qty = 0 if v.inwards_qty is None else v.inwards_qty
+                            purchase_lt_45_val = 0 if v.inwards_val is None else v.inwards_val
+                        
+                        else:
+
+                            sales_lt_45_qty = 0 if v.outwards_qty is None else v.outwards_qty
+                            sales_lt_45_val = 0 if v.outwards_val is None else v.outwards_val
 
                     elif days1 >= 45 and days1 < 90:
-                        total_quantity += in_qty
-                        total_value += in_value
+
+                        if v.Voucher_type == 'Purchase':
+
+                            purchase_45_90_qty = 0 if v.inwards_qty is None else v.inwards_qty
+                            purchase_45_90_val = 0 if v.inwards_val is None else v.inwards_val
+                        
+                        else:
+
+                            sales_45_90_qty = 0 if v.outwards_qty is None else v.outwards_qty
+                            sales_45_90_val = 0 if v.outwards_val is None else v.outwards_val
 
                     elif days1>= 90 and days1 < 180:
-                        total_quantity += in_qty
-                        total_value += in_value
+                        if v.Voucher_type == 'Purchase':
+
+                            purchase_90_180_qty = 0 if v.inwards_qty is None else v.inwards_qty
+                            purchase_90_180_val = 0 if v.inwards_val is None else v.inwards_val
+                        
+                        else:
+
+                            sales_90_180_qty = 0 if v.outwards_qty is None else v.outwards_qty
+                            sales_90_180_val = 0 if v.outwards_val is None else v.outwards_val
+
+                        
                     else:
-                        total_quantity = (in_qty-out_qty)
-                        total_value = (in_value-out_value)
+                        if v.Voucher_type == 'Purchase':
 
-                        #age_analysis(company = comp, group = grp, item= i, voucher = v,days = days1 , total_qty = total_quantity , total_val = total_value).save()
-                            
-            '''            else:
-                    
-                if a == False:
-                    days1 = (datetime.today()-datetime.strptime(i.trackdate,'%d-%m-%Y')).days
-                    age_analysis(company = comp, group = grp, item = i,days = days1,total_qty = i.quantity , total_val = i.value).save()
-             if age == True:
+                            purchase_gt_180_qty = 0 if v.inwards_qty is None else v.inwards_qty
+                            purchase_gt_180_val = 0 if v.inwards_val is None else v.inwards_val
+                        
+                        else:
 
-                a1_qty =  age_analysis.objects.filter(days__lt = 45).aggregate(Sum('total_qty'))['total_qty__sum']
-                a1_val = age_analysis.objects.filter(days__lt = 45).aggregate(Sum('total_val'))['total_val__sum']
-                qty = '' if a1_qty is None else a1_qty
-                val = '' if a1_val is None else a1_val
-                d1.extend([qty,val])
+                            sales_gt_180_qty = 0 if v.outwards_qty is None else v.outwards_qty
+                            sales_gt_180_val = 0 if v.outwards_val is None else v.outwards_val
 
-                a1_qty =  age_analysis.objects.filter(days__range = (45,90)).aggregate(Sum('total_qty'))['total_qty__sum']
-                a1_val = age_analysis.objects.filter(days__range = (45,90)).aggregate(Sum('total_val'))['total_val__sum']
-                qty = '' if a1_qty is None else a1_qty
-                val = '' if a1_val is None else a1_val
-                d1.extend([qty,val])               
+                total_sales_qty += sales_lt_45_qty + sales_45_90_qty + sales_90_180_qty + sales_gt_180_qty
+                total_sales_val += sales_lt_45_val + sales_45_90_val + sales_90_180_val + sales_gt_180_val
 
-                a1_qty =  age_analysis.objects.filter(days__range = (90,180)).aggregate(Sum('total_qty'))['total_qty__sum']
-                a1_val = age_analysis.objects.filter(days__range = (90,180)).aggregate(Sum('total_val'))['total_val__sum']
-                qty = '' if a1_qty is None else a1_qty
-                val = '' if a1_val is None else a1_val
-                d1.extend([qty,val])
+                total_qty_gt_180 += purchase_gt_180_qty - total_sales_qty
+                total_val_gt_180 += purchase_gt_180_val - total_sales_val
 
+                if total_qty_gt_180 < 0:
+                    total_qty_90_180 += purchase_90_180_qty + total_qty_gt_180
+                    total_val_90_180 += purchase_90_180_val + total_val_gt_180
+                else:
+                    total_qty_90_180 += purchase_90_180_qty
+                    total_val_90_180 += purchase_90_180_val
+
+                if total_qty_90_180 < 0:
+                    total_qty_45_90 += purchase_45_90_qty + total_qty_90_180
+                    total_val_45_90 += purchase_45_90_val + total_val_90_180
+
+                else:
+                    total_qty_45_90 += purchase_45_90_qty
+                    total_val_45_90 += purchase_45_90_val
                 
+                if total_qty_45_90 < 0:
+                    total_qty_lt_45 += purchase_lt_45_qty + total_qty_45_90
+                    total_val_lt_45 += purchase_lt_45_val + total_val_45_90
 
-                a1_qty =  age_analysis.objects.filter(days__gt = 180).aggregate(Sum('total_qty'))['total_qty__sum']
-                a1_val = age_analysis.objects.filter(days__gt = 180).aggregate(Sum('total_val'))['total_val__sum']
-                qty = '' if a1_qty is None else a1_qty
-                val = '' if a1_val is None else a1_val
-                d1.extend([qty,val])
-                
-            #analysis = age_analysis.objects.filter(item_id = i.id)
-            analysis = (age_analysis.objects.values('item_id').order_by()).distinct()'''
+                else:
+                    total_qty_lt_45 += purchase_lt_45_qty
+                    total_val_lt_45 += purchase_lt_45_val
 
-            #i['totalval_45'] = val_45
+                if total_qty_lt_45 < 0:
+
+                    negative_stock += total_qty_lt_45
+
+                Total = total_qty_lt_45 + total_qty_45_90 + total_qty_90_180 + total_qty_gt_180 + negative_stock
+
+                i['totalqty_45'] = total_qty_lt_45
+                i['totalval_45'] = total_val_lt_45
+
+                i['totalqty_45_90'] = total_qty_45_90
+                i['totalval_45_90'] = total_val_45_90
+
+                i['totalqty_90_180'] = total_qty_90_180
+                i['totalval_90_180'] = total_val_90_180
+
+                i['totalqty_gt_180'] = total_qty_gt_180
+                i['totalval_gt_180'] = total_val_gt_180
+
+                i['negative_stock'] = negative_stock
+                i['Total'] = Total
         
-            context = {
+            else:
+
+                days2 = (datetime.today()-datetime.strptime(i['trackdate'],'%d-%m-%Y')).days
+
+                if days2 < 45:
+                    total_qty_lt_45 = i['quantity']
+                    total_val_lt_45 = i['value']
+                elif days2 >= 45 and days2 < 90:
+                    total_qty_45_90 = i['quantity']
+                    total_val_45_90 = i['value']
+                elif days2 >= 90 and days2 < 180:
+                    total_qty_90_180 = i['quantity']
+                    total_val_90_180 = i['value']
+                else:
+                    total_qty_gt_180 = i['quantity']
+                    total_val_gt_180 = i['value']
+
+                Total = int(total_qty_lt_45) + int(total_qty_45_90) + int(total_qty_90_180) + int(total_qty_gt_180)
+
+                i['totalqty_45'] = int(total_qty_lt_45)
+                i['totalval_45'] = int(total_val_lt_45)
+
+                i['totalqty_45_90'] = int(total_qty_45_90)
+                i['totalval_45_90'] = int(total_val_45_90)
+
+                i['totalqty_90_180'] = int(total_qty_90_180)
+                i['totalval_90_180'] = int(total_val_90_180)
+
+                i['totalqty_gt_180'] = int(total_qty_gt_180)
+                i['totalval_gt_180'] = int(total_val_gt_180)
+
+                i['Total'] = Total
+
+        
+        context = {
                     'company' : comp,
                     'group': grp,
                     'item'  :item,
-                    'voucher':vouch,
+                    'voucher':voucher,
+                    
                 }
         
         return render(request,'stock_ageing_analysis.html',context)
