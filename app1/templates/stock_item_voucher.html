@@ -13,64 +13,79 @@
                           </div> 
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered border-dark " style="background-color: rgba(33,57,77,255);color:#fff;">
-
+                    <table class="table" style="background-color: rgba(33,57,77,255);color:#fff;">
                        <tr>
-                        <th colspan="7" >Stock Item : {{item.name }}</th>
-                        <th colspan="7" class="text-right">1-april-2022 to 30-april-2022</th>
+                        <th colspan="8" >Stock Item : {{item.name }}</th>
+                        <th colspan="8" class="text-right">1-april-2022 to 30-april-2022</th>
                        </tr>
                        <tr>
-                        <th rowspan="2"> Date</th>
-                        <th colspan="6" rowspan="2">Particulars</th>
-                        <th colspan="2" class="text-center">Inwards</th>
-                        <th colspan="2"  class="text-center">Outwards</th>
-                        <th colspan="2" class="text-center">Closing</th>
+                        <th rowspan="2" class="text-left"> Date</th>
+                        <th colspan="3" rowspan="2" class="text-left">Particulars</th>
+                        <th colspan="3" rowspan="2" class="text-right">Vch Type</th>
+                        <th colspan="2" rowspan="2" class="text-right">Vch No.</th>
+                        <th colspan="2" class="text-center border-left">Inwards</th>
+                        <th colspan="2"  class="text-center border-left">Outwards</th>
+                        <th colspan="2" class="text-center border-left">Closing</th>
                        </tr>
                        
                        <tr>
-                        <th class="text-center text-white">Quantity</th>
+                        <th class="text-center text-white border-left">Quantity</th>
                         <th class="text-center text-white">Value</th>
-                        <th class="text-center text-white">Quantity</th>
+                        <th class="text-center text-white border-left">Quantity</th>
                         <th class="text-center text-white">Value</th>
-                        <th class="text-center text-white">Quantity</th>
+                        <th class="text-center text-white border-left">Quantity</th>
                         <th class="text-center text-white">Value</th>
                       </tr>
 
                        <tr class="">
                         <td></td>
-                        <td colspan="6" class="text-left"><i> Opening Balance</i></td>
-                        <td>{{item.quantity}} {{item.units}}</td>
-                        <td>{{item.value}}</td>
+                        <td colspan="8" class="text-left"><i> Opening Balance</i></td>
+                        <td class="border-left text-center">{{item.quantity}} {{item.units}}</td>
+                        <td class="text-center">{{item.value}}</td>
+                        <td class="border-left"></td>
                         <td></td>
-                        <td></td>
-                        <td>{{item.quantity}} {{item.units}}</td>
-                        <td>{{item.value}}</td> 
+                        <td class="border-left text-center">{{item.quantity}} {{item.units}}</td>
+                        <td class="text-center">{{item.value}}</td> 
                         
                         
                        </tr>
 
                        {% for v in voucher %}
                        <tr class="">
-                        <td >{{v.date}}</td>
-                        <td colspan="6">{{v.Particulars}}</td>
+                        <td class="text-left">{{v.date}}</td>
+                        <td colspan="3" class=" text-left ">{{v.Particulars}}</td>
+                        <td colspan="3" class="text-right">{{v.Voucher_type}}</td>
+                        <td colspan="2" class="text-right">{{v.Voucher_no}}</td>
+
+                        {% if v.inwards_qty is not None %}
+                        <th class="border-left text-center">{{v.inwards_qty}} {{item.units}}</th>
+                        <th class="text-center">{{v.inwards_val}}</th>
+                        {% else %}
+                        <th class="border-left"></th>
+                        <th></th>
+                        {% endif %}
+
+                        {% if v.outwards_qty is not None %}
+                        <th class="border-left text-center">{{v.outwards_qty}} {{item.units}}</th>
+                        <th class="text-center">{{v.outwards_val}}</th>
+                        {% else %}
+                        <th class="border-left"></th>
+                        <th></th>
+                        {% endif %}
                         
-                        <th>{{v.inwards_qty}} {{item.units}}</th>
-                        <th>{{v.inwards_val}}</th>
-                        <th>{{v.outwards_qty}} {{item.units}}</th>
-                        <th>{{v.outwards_val}}</th>
-                        <th>{{v.closing_qty}} {{item.units}}</th>
-                        <th>{{v.closing_val}}</th> 
+                        <th class="border-left text-center">{{v.closing_qty}} {{item.units}}</th>
+                        <th class="text-center">{{v.closing_val}}</th> 
                        </tr>
                        {% endfor %}
 
                        <tr>
-                        <td colspan="7">Totals as per 'Default' Valuation :</td>
-                        <td>{{sum1}}</td>
-                        <td>{{sum2}}</td>
-                        <td>{{sum3}}</td>
-                        <td>{{sum4}}</td>
-                        <td>{{sum5}}</td>
-                        <td>{{sum6}}</td>
+                        <td colspan="9">Totals as per 'Default' Valuation :</td>
+                        <td class="border-left text-center">{{sum1}}</td>
+                        <td class="text-center">{{sum2}}</td>
+                        <td class="border-left text-center">{{sum3}}</td>
+                        <td class="text-center">{{sum4}}</td>
+                        <td class="border-left text-center">{{sum5}}</td>
+                        <td class="text-center"> {{sum6}}</td>
                        </tr>
 
                     </table>
