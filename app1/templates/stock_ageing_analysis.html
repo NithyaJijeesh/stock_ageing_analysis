@@ -102,7 +102,7 @@
                              
                               <tbody class="border-dark">
 
-                                                       
+                                          
                                 {% for i in item %}        
                                   <tr>
                                     <td colspan="8"><a href="{% url 'stock_monthly' i.id %}" >{{i.name}}</a></td>
@@ -111,10 +111,10 @@
                                     
                                     <td><a href="{% url 'stock_monthly' i.id %}">{{i.Total}} {{i.units}}</a></td>
 
-                                    {% if i.totalqty_45 > 0 %}
+                                    {% if i.totalqty_lt_45 > 0 %}
                                     
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalqty_45}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalval_45}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalqty_lt_45}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalval_lt_45}}</a></td>
                                     {% else %}
                                     <td><a href="{% url 'item_inwards' i.id %}"></a></td>
                                     <td><a href="{% url 'item_inwards' i.id %}"></a></td>

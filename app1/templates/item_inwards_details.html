@@ -68,71 +68,72 @@
                       </div>
                       
                       <div class="table-responsive">
-                          <table class="table table-bordered table-sm border-dark" style="background-color: rgba(33,57,77,255);color:#fff;">
-                            <tr  class="p-2">
-                              <th colspan="9" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2) ; border-right:none ;">
-                                <div>
+                        <table class="table table-bordered table-sm border-dark" style="background-color: rgba(33,57,77,255);color:#fff;">
+                          <tr  class="p-2">
+                            <th colspan="9" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2) ; border-right:none ;">
+                              <div>
                                 <div >Stock Item : Shampoo</div>
-                                </div>
-                                
-                                 </th>
-                              <th colspan="9" class="text-right" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2);border-left:none ;">                           
-                                
-                                <div >open date to 1-April-2022</div>
-                          </th>
-                          </tr>
-                          
+                              </div>
+                              
+                               </th>
+                            <th colspan="10" class="text-right" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2);border-left:none ;">                           
+                              
+                              <div >open date to 1-April-2022</div>
+                        </th>
+                        </tr>
+                      
                           <tr class="p-2 text-center mt-5" >
                             <th class="text-center" rowspan="2">Date</th>
-                            <th colspan="8"  class="text-center" rowspan="2">Particulars</th>
+                            <th colspan="8"  class="text-center" rowspan="2"><b>Particulars</b></th>
                             <th colspan = '2' class="text-right" rowspan="2">Voucher Type</th>                            
                             <th  colspan = '2' class="text-right" rowspan="2">Voucher No.</th>
-                            <th colspan="6" class="text-center"><b><em>Inwards</em></b></th>
+                            <th colspan="6" class="text-center border-bottom"><b>Inwards</b></th>
 
-                             
-                          </tr>
+                        </tr>
 
-                          <tr class="p-2 text-center" >
-                              <th >Quantity</th>
-                              <th >Rate </th>
-                              <th >Value </th>
+                          <tr class="text-center" >
+                              <th colspan="2">Quantity</th>
+                              <th colspan="2">Rate </th>
+                              <th  colspan="2">Value </th>
                               
                           </tr>
-                          <tbody>
-                          <tr class="p-2 text-center mt-5" >
-                            <td class="text-center" rowspan="2">{{item.trackdate}}</td>
-                            <td colspan="8"  class="text-center" rowspan="2"><em>Open Balance</em></td>
-                            <td colspan = '2' class="text-right" rowspan="2"></td>                            
-                            <td  colspan = '2' class="text-right" rowspan="2"></td>
-                            <td>{{item.quantity}}</td>
-                            <td>{{item.rate}}</td>
-                            <td>{{item.value}}</td>
+                          <tbody style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
+                          <tr class="p-4 text-center mb-5" >
+                            <td class="text-center" >{{item.trackdate}}</td>
+                            <td colspan="8"  class="text-center" ><em><b>Open Balance</b></em></td>
+                            <td colspan ='2' class="text-right" ></td>                            
+                            <td colspan ='2' class="text-right" ></td>
+                            <td colspan="2" >{{item.quantity}}</td>
+                            <td colspan="2" >{{item.rate}}</td>
+                            <td colspan="2" >{{item.value}}</td>
+
+                          </tr><p style="color: #fff;">{{d}}</p>
+                          {% for v in voucher %}
+
+                          <tr class="text-center">
+                                    
+                              <td class="text-left"> {{v.date}}</td>
+                              <td colspan="8" class="text-left"> {{v.Particulars}}</td>
+                              <td colspan="2" class="text-right">{{v.Voucher_type}}</td>
+                              <td colspan="2" class="text-right">{{v.Voucher_no}}</td>
+                              <td colspan="2" class="text-center">{{v.inwards_qty}}</td>
+                              <td colspan="2" class="text-center">{{v.rate}}</td>
+                              <td colspan="2" class="text-center">{{v.inwards_val}}</td>
 
                           </tr>
-                             
-                              
-                                
-                                  <tr>
+                          {% endfor %}
+                          </tbody>
+                          <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
+                            <tr>
+                              <td  colspan="13" class="text-left">Total as per 'Default' valuation</td>
                                     
-                                    <td class="text-left"></td>
-                                    <td class="text-left"></td>
-                                    <td class="text-right"></td>
-                                    <td class="text-right"></td>
+                              <td colspan="2"></td>
+                              <td colspan="2"></td>
+                              <td colspan="2"></td>
                                     
-                                  </tr>
-                             
-                              </tbody>
-                              <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
-                                <tr>
-                                    <td  colspan="12" class="text-left">Total as per 'Default' valuation</td>
-                                    
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                              </tfoot>
-                          </table>
+                            </tr>
+                        </tfoot>
+                    </table>
                         </div>
                   </div>
               </div>
