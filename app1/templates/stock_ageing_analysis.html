@@ -73,7 +73,7 @@
                                 <div >Valued based on actual purchase</div>
                           </th>
                           </tr>
-                        
+                          {{voucher}}
                             <tr class="p-2 text-center mt-5" >
                             <th colspan="8" class="text-center" rowspan="2">Particulars</th>
                             <th colspan="2"class="text-center" rowspan="2">Expiry date</th>
@@ -102,7 +102,6 @@
                              
                               <tbody class="border-dark">
 
-                                          
                                 {% for i in item %}        
                                   <tr>
                                     <td colspan="8"><a href="{% url 'stock_monthly' i.id %}" >{{i.name}}</a></td>
@@ -113,55 +112,92 @@
 
                                     {% if i.totalqty_lt_45 > 0 %}
                                     
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalqty_lt_45}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalval_lt_45}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id i.datel45 i.enddate %}">{{i.totalqty_lt_45}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id i.datel45 i.enddate %}">{{i.totalval_lt_45}}</a></td>
                                     {% else %}
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    <td></td>
+                                    <td></td>
                                     {% endif %}
 
                                     {% if i.totalqty_45_90 > 0 %}
                                     
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalqty_45_90}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalval_45_90}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id i.date4590 i.datel45 %}">{{i.totalqty_45_90}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id i.date4590 i.datel45 %}">{{i.totalval_45_90}}</a></td>
                                     {% else %}
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    <td></td>
+                                    <td></td>
                                     {% endif %}
                                     
                                     {% if i.totalqty_90_180 > 0 %}
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalqty_90_180}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalval_90_180}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id i.date90180 i.date4590 %}">{{i.totalqty_90_180}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id i.date90180 i.date4590 %}">{{i.totalval_90_180}}</a></td>
                                     {% else %}
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    <td></td>
+                                    <td></td>
                                     {% endif %}
                                     
                                     {% if i.totalqty_gt_180 > 0 %}
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalqty_gt_180}} {{i.units}}</a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.totalval_gt_180}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id i.dategt180 i.date90180 %}">{{i.totalqty_gt_180}} {{i.units}}</a></td>
+                                    <td><a href="{% url 'item_inwards' i.id i.dategt180 i.date90180 %}">{{i.totalval_gt_180}}</a></td>
                                     {% else %}
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    <td></td>
+                                    <td></td>
                                     {% endif %}
 
                                     {% if i.negative_stock < 0 %}
 
-                                    <td><a href="{% url 'item_inwards' i.id %}">{{i.negative_stock}} {{i.units}}</a></td>
+                                    <td><a href="">{{i.negative_stock}} {{i.units}}</a></td>
                                     {% else %}                                
-                                    <td><a href="{% url 'item_inwards' i.id %}"></a></td>
+                                    <td><a href=""></a></td>
                                     {% endif %}
 
                                   </tr>
                                   {% endfor %}
 
-                             
-                              </tbody>
+                                </tbody>
                               <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                                 <tr>
                                     <td  colspan="10" class="text-center">Grand Total</td>
-                                    
-      
+                                    <td >{{gt1}}</td>
+
+                                    {% if gt2 != 0 %}
+                                    <td >{{gt2}}</td>
+                                    <td> {{gt3}}</td>
+                                    {% else %}
+                                    <td></td>
+                                    <td></td>
+                                    {% endif %}
+
+                                    {% if gt4 != 0 %}
+                                    <td>{{gt4}}</td>
+                                    <td>{{gt5}}</td>
+                                    {% else %}
+                                    <td></td>
+                                    <td></td>
+                                    {% endif %}
+
+                                    {% if gt6 != 0 %}
+                                    <td>{{gt6}}</td>
+                                    <td> {{gt7}}</td>
+                                    {% else %}
+                                    <td></td>
+                                    <td></td>
+                                    {% endif %}
+
+                                   {% if gt8 != 0 %}
+                                    <td>{{gt8}}</td>
+                                    <td>{{gt9}}</td>
+                                    {% else %}
+                                    <td></td>
+                                    <td></td>
+                                    {% endif %}
+
+                                    {% if gt0 != 0 %}
+                                    <td>{{gt0}}</td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+                                   
                                 </tr>
                               </tfoot>
                           </table>
