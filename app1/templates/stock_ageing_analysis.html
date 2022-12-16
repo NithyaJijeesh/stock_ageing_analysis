@@ -69,11 +69,11 @@
                                  </th>
                               <th colspan="10" class="text-right" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2);border-left:none ;">                           
                                 
-                                <div >as at 1-April-2022</div>
+                                <div >as at {{vdate}}</div>
                                 <div >Valued based on actual purchase</div>
                           </th>
                           </tr>
-                          {{voucher}}
+                         
                             <tr class="p-2 text-center mt-5" >
                             <th colspan="8" class="text-center" rowspan="2">Particulars</th>
                             <th colspan="2"class="text-center" rowspan="2">Expiry date</th>
@@ -158,9 +158,13 @@
                               <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                                 <tr>
                                     <td  colspan="10" class="text-center">Grand Total</td>
+                                    {% if gt1 > 0%}
                                     <td >{{gt1}}</td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
 
-                                    {% if gt2 != 0 %}
+                                    {% if gt2 > 0 %}
                                     <td >{{gt2}}</td>
                                     <td> {{gt3}}</td>
                                     {% else %}
@@ -168,7 +172,7 @@
                                     <td></td>
                                     {% endif %}
 
-                                    {% if gt4 != 0 %}
+                                    {% if gt4 > 0 %}
                                     <td>{{gt4}}</td>
                                     <td>{{gt5}}</td>
                                     {% else %}
@@ -176,7 +180,7 @@
                                     <td></td>
                                     {% endif %}
 
-                                    {% if gt6 != 0 %}
+                                    {% if gt6 > 0 %}
                                     <td>{{gt6}}</td>
                                     <td> {{gt7}}</td>
                                     {% else %}
@@ -184,7 +188,7 @@
                                     <td></td>
                                     {% endif %}
 
-                                   {% if gt8 != 0 %}
+                                   {% if gt8 > 0 %}
                                     <td>{{gt8}}</td>
                                     <td>{{gt9}}</td>
                                     {% else %}
@@ -192,7 +196,7 @@
                                     <td></td>
                                     {% endif %}
 
-                                    {% if gt0 != 0 %}
+                                    {% if gt0 > 0 %}
                                     <td>{{gt0}}</td>
                                     {% else %}
                                     <td></td>

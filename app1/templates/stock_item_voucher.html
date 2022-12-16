@@ -16,7 +16,7 @@
                     <table class="table" style="background-color: rgba(33,57,77,255);color:#fff;">
                        <tr>
                         <th colspan="8" >Stock Item : {{item.name }}</th>
-                        <th colspan="8" class="text-right">1-april-2022 to 30-april-2022</th>
+                        <th colspan="8" class="text-right">{{beg_date}} to {{end_date}}</th>
                        </tr>
                        <tr>
                         <th rowspan="2" class="text-left"> Date</th>
@@ -38,7 +38,7 @@
                       </tr>
 
                        <tr class="">
-                        <td></td>
+                        <td>{{beg_date}}</td>
                         <td colspan="8" class="text-left"><i> Opening Balance</i></td>
                         <td class="border-left text-center">{{item.quantity}} {{item.units}}</td>
                         <td class="text-center">{{item.value}}</td>
@@ -52,7 +52,7 @@
 
                        {% for v in voucher %}
                        <tr class="">
-                        <td class="text-left">{{v.date}}</td>
+                        <td class="text-left">{{beg_date}}</td>
                         <td colspan="3" class=" text-left ">{{v.Particulars}}</td>
                         <td colspan="3" class="text-right">{{v.Voucher_type}}</td>
                         <td colspan="2" class="text-right">{{v.Voucher_no}}</td>
@@ -79,13 +79,13 @@
                        {% endfor %}
 
                        <tr>
-                        <td colspan="9">Totals as per 'Default' Valuation :</td>
-                        <td class="border-left text-center">{{sum1}}</td>
-                        <td class="text-center">{{sum2}}</td>
-                        <td class="border-left text-center">{{sum3}}</td>
-                        <td class="text-center">{{sum4}}</td>
-                        <td class="border-left text-center">{{sum5}}</td>
-                        <td class="text-center"> {{sum6}}</td>
+                        <td colspan="9" class="text-center">Totals as per 'Default' Valuation :</td>
+                        <td class="border-left text-center">{{sum_in_qty}} {{item.units}}</td>
+                        <td class="text-center">{{sum_in_val}}</td>
+                        <td class="border-left text-center">{{sum_out_qty}} {{item.units}}</td>
+                        <td class="text-center">{{sum_out_val}}</td>
+                        <td class="border-left text-center">{{sum_closing_qty}} {{item.units}}</td>
+                        <td class="text-center"> {{sum_closing_val}}</td>
                        </tr>
 
                     </table>

@@ -48,7 +48,7 @@ cursor:pointer;
                                 <th rowspan="3" colspan="3" class="align-middle text-white "> <h6 class="d-flex align-items-sm-start par p-1 py-1" style="margin-left: 20px;">Particular</h6></th>
                                 
                                 <th colspan="6" class="text-center text-white " ><h6><i>{{item.name}}</i></h6>
-                                  <h6><strong> {{company.name}} </strong></h6><h6>{{company.fin_begin}} to {{company.fin_end}}</h6></th>
+                                  <h6><strong> {{company.name}} </strong></h6><h6>{{beg_date}} to {{new_date}}</h6></th>
                               </tr>
                             
                               <tr>
@@ -87,34 +87,40 @@ cursor:pointer;
                            
                             {% for m in months %}
                             
-                            <tr class="table-row" data-href="">
+                            <tr class="table-row">
                                 
                                 <td> <a href="{% url 'stock_item_vouchers' item.id m.id %}">{{m.month_name}}</a> </td>
                                
                                 <td class="text-center"></td>
                                 <td class="text-center"></td>
                                 {% if m.total_inqty is not None %}
-                                <td class="text-center border-left">{{ m.total_inqty }} {{item.units}}</td>
-                                <td class="text-center">{{ m.total_inval }}</td>
+                                <td class="text-center border-left">
+                                    <a href="{% url 'stock_item_vouchers' item.id m.id %}">{{ m.total_inqty }} {{item.units}}</a></td>
+                                <td class="text-center">
+                                    <a href="{% url 'stock_item_vouchers' item.id m.id %}">{{ m.total_inval }}</a></td>
                                 {% else %}
-                                <td class="text-center border-left"></td>
-                                <td class="text-center"></td>
+                                <td class="text-center border-left"><a href="{% url 'stock_item_vouchers' item.id m.id %}"></a></td>
+                                <td class="text-center"><a href="{% url 'stock_item_vouchers' item.id m.id %}"></a></td>
                                 {% endif %}
 
                                 {% if m.total_outqty is not None %}
-                                <td class="text-center border-left">{{ m.total_outqty }} {{item.units}}</td>
-                                <td class="text-center">{{ m.total_outval }}</td>
+                                <td class="text-center border-left">
+                                    <a href="{% url 'stock_item_vouchers' item.id m.id %}">{{ m.total_outqty }} {{item.units}}</a></td>
+                                <td class="text-center">
+                                    <a href="{% url 'stock_item_vouchers' item.id m.id %}">{{ m.total_outval }}</a></td>
                                 {% else %}
-                                <td class="text-center border-left"></td>
-                                <td class="text-center"></td>
+                                <td class="text-center border-left"><a href="{% url 'stock_item_vouchers' item.id m.id %}"></a></td>
+                                <td class="text-center"><a href="{% url 'stock_item_vouchers' item.id m.id %}"></a></td>
                                 {% endif %}
 
                                 {% if m.total_qty is not None %}
-                                <td class="text-center border-left"> {{ m.total_qty }} {{item.units}}</td>
-                                <td class="text-center">{{ m.total_val }}</td>
+                                <td class="text-center border-left">
+                                    <a href="{% url 'stock_item_vouchers' item.id m.id %}">{{ m.total_qty }} {{item.units}}</a></td>
+                                <td class="text-center">
+                                    <a href="{% url 'stock_item_vouchers' item.id m.id %}">{{ m.total_val }}</a></td>
                                 {% else %}
-                                <td class="text-center border-left"></td>
-                                <td class="text-center"></td>
+                                <td class="text-center border-left"><a href="{% url 'stock_item_vouchers' item.id m.id %}"></a></td>
+                                <td class="text-center"><a href="{% url 'stock_item_vouchers' item.id m.id %}"></a></td>
                                 {% endif %}
     
                             </tr>
@@ -127,10 +133,10 @@ cursor:pointer;
                                 
                                 <th  style="text-align: center;"></th>
                                 <th  style="text-align: center;"></th>
-                                <th  style="text-align: center;" class="border-left"></th>
-                                <th></th>
-                                <th class="border-left"></th>
-                                <th></th>
+                                <th  style="text-align: center;" class="border-left">{{sum_in_qty}} {{item.units}}</th>
+                                <th style="text-align:center;"> {{sum_in_val}}</th>
+                                <th style="text-align:center;" class="border-left">{{sum_out_qty}} {{item.units}}</th>
+                                <th style="text-align:center;">{{sum_out_val}}</th>
                                
                                 <th style="text-align:center;" class="border-left"> {{tot_qty}} {{item.units}}</th>
                                 <th style="text-align: center;">{{tot_val}}</th>

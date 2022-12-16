@@ -78,7 +78,7 @@
                                </th>
                             <th colspan="10" class="text-right" style="border-bottom: solid 0.5px rgba(255, 255, 255, .2);border-left:none ;">                           
                               
-                              <div >open date to 1-April-2022</div>
+                              <div >{{first_date}} to {{last_date}}</div>
                         </th>
                         </tr>
                       
@@ -99,11 +99,11 @@
                           </tr>
                           <tbody style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                           <tr class="p-4 text-center mb-5" >
-                            <td class="text-center" >{{item.trackdate}}</td>
+                            <td class="text-center" >{{first_date}}</td>
                             <td colspan="8" class="text-center" ><em><b>Open Balance</b></em></td>
                             <td colspan ='2' class="text-right" ></td>                            
                             <td colspan ='2'class="text-right" ></td>
-                            <td colspan="2"  >{{item.quantity}}</td>
+                            <td colspan="2"  >{{item.quantity}} {{item.units}}</td>
                             <td colspan="2"  >{{item.rate}}</td>
                             <td colspan="2"  >{{item.value}}</td>
                           </tr>
@@ -112,11 +112,11 @@
 
                           <tr class="text-center">
                                     
-                              <td class="text-left"> {{v.date}}</td>
+                              <td class="text-left"> {{last_date}}</td>
                               <td colspan="8" class="text-left"> {{v.Particulars}}</td>
                               <td colspan="2" class="text-right">{{v.Voucher_type}}</td>
                               <td colspan="2" class="text-right">{{v.Voucher_no}}</td>
-                              <td colspan="2" class="text-center">{{v.inwards_qty}}</td>
+                              <td colspan="2" class="text-center">{{v.inwards_qty}} {{item.units}}</td>
                               <td colspan="2" class="text-center">{{v.rate}}</td>
                               <td colspan="2" class="text-center">{{v.inwards_val}}</td>
 
@@ -126,11 +126,11 @@
                           </tbody>
                           <tfoot style="border-top:solid 0.5px rgba(255, 255, 255, .2) ;">
                             <tr>
-                              <td  colspan="13" class="text-left">Total as per 'Default' valuation</td>
+                              <td  colspan="13" class="text-center">Totals as per 'Default' valuation:</td>
                                     
-                              <td colspan="2"></td>
-                              <td colspan="2"></td>
-                              <td colspan="2"></td>
+                              <td colspan="2" class="text-center">{{qty}} {{item.units}}</td>
+                              <td colspan="2" class="text-center">{{rate}}</td>
+                              <td colspan="2" class="text-center">{{val}}</td>
                                     
                             </tr>
                         </tfoot>
