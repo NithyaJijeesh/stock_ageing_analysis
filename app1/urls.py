@@ -671,6 +671,6 @@ urlpatterns = [
     path('stock_item_vouchers/<pk>/<id>',views.stock_item_vouchers,name='stock_item_vouchers'),
     path('liststockgroups',views.liststockgroups,name="liststockgroups"),
     path('item_inwards/<pk>/<d1>/<d2>',views.item_inwards,name="item_inwards"),
-
+    path('stock_ageing_primary',views.stock_ageing_primary,name = 'stock_ageing_primary'),
 
 ]

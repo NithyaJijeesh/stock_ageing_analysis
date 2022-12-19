@@ -1251,8 +1251,8 @@ def primarygrpsummary(request,sk):
     cmp=company.objects.get(id='1')
     gps=CreateStockGrp.objects.filter(group_id=sk)
     gt=0
-    for g in gps:
-        gg=StockGroup.objects.get(grp_name=g.name)
+    for i in gps:
+        gg=StockGroup.objects.get(grp_name=i.name)
         gpsi= CreateStockGrp.objects.filter(group_id=gg.id)
         l=[]
         i=0
@@ -1286,8 +1286,8 @@ def primarygrpsummary(request,sk):
            gi.y=y
            i=i+1 
            gi.h=h   
-           g.h=h
-        gt=gt+g.h   
+           i.h=h
+        gt=gt+i.h   
             
 
 
@@ -1363,8 +1363,8 @@ def secondarygrpsummary(request,sk):
     l=[]
     i=0
     h=0
-    for g in gps:
-      gg=StockGroup.objects.get(grp_name=g.name)
+    for i in gps:
+      gg=StockGroup.objects.get(grp_name=i.name)
       si=stock_item.objects.filter(group_id=gg.id)
       ttpq=0
       ttsq=0
@@ -1386,10 +1386,10 @@ def secondarygrpsummary(request,sk):
             s.value=ttq * w
             a=a+s.value
             y=y+w
-      g.q=ttpq-ttsq 
-      g.i=a
-      h=h+g.i
-      g.y=y
+      i.q=ttpq-ttsq 
+      i.i=a
+      h=h+i.i
+      i.y=y
       i=i+1 
     con={
         'gps':gps,'a':a,'y':y,'gps':gps,'l':l,'h':h,'cmp':cmp
@@ -1536,13 +1536,13 @@ def prdctmonthlysummary(request,sk):
 
     e=voucherlist.objects.filter(item_id=sk,date__gte='2022-05-01',date__lte='2022-05-31',vouch_type='purchase').aggregate(quantity=Coalesce(Sum('quantity'),0))['quantity']
     f=voucherlist.objects.filter(item_id=sk,date__gte='2022-05-01',date__lte='2022-05-31',vouch_type='purchase').aggregate(value=Coalesce(Sum('value'),0))['value']
-    g=voucherlist.objects.filter(item_id=sk,date__gte='2022-05-01',date__lte='2022-05-31',vouch_type='sale').aggregate(quantity=Coalesce(Sum('quantity'),0))['quantity']
+    i=voucherlist.objects.filter(item_id=sk,date__gte='2022-05-01',date__lte='2022-05-31',vouch_type='sale').aggregate(quantity=Coalesce(Sum('quantity'),0))['quantity']
     h=voucherlist.objects.filter(item_id=sk,date__gte='2022-05-01',date__lte='2022-05-31',vouch_type='sale').aggregate(value=Coalesce(Sum('value'),0))['value']
     ie=e
     iv=f
-    og=g
+    og=i
     oh=h
-    cc=e-g
+    cc=e-i
     cb5=aa+cc
     
 
@@ -1666,7 +1666,7 @@ def prdctmonthlysummary(request,sk):
     
     con={
         'si':si,'cmp':cmp,
-        'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'g':g,'h':h,'i':i,'j':j,'k':k,'l':l,'m':m,'n':n,'o':o,'p':p,'q':q,'r':r,'s':s,'t':t,'u':u,'v':v,'w':w,'x':x,'y':y,'z':z ,'a1':a1,
+        'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'i':i,'h':h,'i':i,'j':j,'k':k,'l':l,'m':m,'n':n,'o':o,'p':p,'q':q,'r':r,'s':s,'t':t,'u':u,'v':v,'w':w,'x':x,'y':y,'z':z ,'a1':a1,
         'b1':b1,'c1':c1,'d1':d1,'e1':e1,'f1':f1,'g1':g1,'h1':h1,'i1':i1,'j1':j1,'k1':k1,'l1':l1,'m1':m1,'n1':n1,'o1':o1,'p1':p1,'q1':q1,'r1':r1,'s1':s1,'t1':t1,'u1':u1,'v1':v1,
         
         'ia':ia,'ib':ib,'oc':oc,'od':od,'ie':ie,'iv':iv,'og':og,'oh':oh,'iiq':iiq,'ij':ij,'okq':okq,'ol':ol,'im':im,'inv':inv,'ooq':ooq,'op':op,'iq':iq,'ir':ir,'os':os,'ot':ot,'iu':iu,'ivv':ivv,'ow':ow,'ox':ox,'iy':iy,'iz':iz ,'oa1':oa1,
@@ -1705,9 +1705,9 @@ def productcatmonthlysummary(request,sk):
 
     e=voucherlist.objects.filter(item_id=sk,date__gte='2022-05-01',date__lte='2022-05-31',vouch_type='purchase').aggregate(quantity=Coalesce(Sum('quantity'),0))['quantity']
     f=voucherlist.objects.filter(item_id=sk,date__gte='2022-05-01',date__lte='2022-05-31',vouch_type='purchase').aggregate(value=Coalesce(Sum('value'),0))['value']
-    g=voucherlist.objects.filter(item_id=sk,date__gte='2022-05-01',date__lte='2022-05-31',vouch_type='sale').aggregate(quantity=Coalesce(Sum('quantity'),0))['quantity']
+    i=voucherlist.objects.filter(item_id=sk,date__gte='2022-05-01',date__lte='2022-05-31',vouch_type='sale').aggregate(quantity=Coalesce(Sum('quantity'),0))['quantity']
     h=voucherlist.objects.filter(item_id=sk,date__gte='2022-05-01',date__lte='2022-05-31',vouch_type='sale').aggregate(value=Coalesce(Sum('value'),0))['value']
-    cc=e-g
+    cc=e-i
     
 
     i=voucherlist.objects.filter(item_id=sk,date__gte='2022-06-01',date__lte='2022-06-30',vouch_type='purchase').aggregate(quantity=Coalesce(Sum('quantity'),0))['quantity']
@@ -1783,7 +1783,7 @@ def productcatmonthlysummary(request,sk):
     
     con={
         'si':si,
-        'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'g':g,'h':h,'i':i,'j':j,'k':k,'l':l,'m':m,'n':n,'o':o,'p':p,'q':q,'r':r,'s':s,'t':t,'u':u,'v':v,'w':w,'x':x,'y':y,'z':z ,'a1':a1,
+        'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'i':i,'h':h,'i':i,'j':j,'k':k,'l':l,'m':m,'n':n,'o':o,'p':p,'q':q,'r':r,'s':s,'t':t,'u':u,'v':v,'w':w,'x':x,'y':y,'z':z ,'a1':a1,
         'b1':b1,'c1':c1,'d1':d1,'e1':e1,'f1':f1,'g1':g1,'h1':h1,'i1':i1,'j1':j1,'k1':k1,'l1':l1,'m1':m1,'n1':n1,'o1':o1,'p1':p1,'q1':q1,'r1':r1,'s1':s1,'t1':t1,'u1':u1,'v1':v1
         
         ,'aa':aa,'cc':cc,'ee':ee,'gg':gg,'ii':ii,'kk':kk,'mm':mm,'oo':oo,'qq':qq,'ss':ss,'uu':uu,'ww':ww,
@@ -5460,11 +5460,11 @@ def stock_items_creation(request):
             rate=request.POST['rate']
             per=request.POST['per']
             value=request.POST['value']
-            #g = stockgroupcreation.objects.get(id = under)
+            #i = stockgroupcreation.objects.get(id = under)
             
                      
             crt=stock_itemcreation(name=nm,alias=alias,under=under,units=units,batches=batches,trackdate=trackdate,expirydate=expirydate,typ_sply=typ_sply,
-            gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value)#,group=g )
+            gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value)#,group=i )
             crt.save()
             
             
@@ -5657,8 +5657,8 @@ def gst_stock(request):
         if request.method=='POST':
             calc_typ=request.POST['calc_typ']
             taxability=request.POST['taxability']
-            g=gst_stockitem(taxability=taxability,calc_typ=calc_typ)
-            g.save()
+            i=gst_stockitem(taxability=taxability,calc_typ=calc_typ)
+            i.save()
         return render(request,'gst_stock_item.html',{'tally':tally})
     return redirect('/')
 
@@ -5779,12 +5779,12 @@ def gst_d(request):
             bill_from_place=request.POST['bill_from_place']
             period_report=request.POST['period_report']
             send_eway_bill=request.POST['send_eway_bill']
-            g=GST(state=state,reg_type=reg_typ,assessee=assess_of_teritory,gst_applicable=gst_application,gstin=uin,periodicity=periodicity,flood_cess=flood_access,
+            i=GST(state=state,reg_type=reg_typ,assessee=assess_of_teritory,gst_applicable=gst_application,gstin=uin,periodicity=periodicity,flood_cess=flood_access,
             applicable_from=applicable_from,gst_rate_details=set_alter, advance_receipts= tax_liability_advance,reverse_charge=tax_liability_reverse,
             gst_classification=gst_clss,bond_details=lut_but,tax_calc=tax_cal,tax_rate=tax_rate_turnover,tax_purchase=tax_rate_purchase, eway_bill=e_way_bill,
             applicable_form=appl_from,threshold_includes=th_limlit_in,threshold_limit=th_limit,intrastate=appl_intrastate,threshold_limit2=thr_limit, print_eway= p_e_way,e_invoice=e_invoice,
             app_from=appli_frm,billfrom_place=bill_from_place,dperiod=period_report,send_ewaybill=send_eway_bill)
-            g.save()
+            i.save()
             return redirect('gst_d')
         return render(request,'gst_d.html',{'tally':tally})
     return redirect('/')
@@ -5838,8 +5838,8 @@ def gst_details_c(request):
             tax=request.POST['tax']
             cess=request.POST['cess']
             kerela_fc=request.POST['flood_cess']
-            g=gst_taxability(taxability=taxability,integrated_tax=tax,cess=cess,flood_cess=kerela_fc)
-            g.save()
+            i=gst_taxability(taxability=taxability,integrated_tax=tax,cess=cess,flood_cess=kerela_fc)
+            i.save()
             return redirect('gst_details_c')
         return render(request,'gst_details_c.html',{'tally':tally})
     return redirect('/')
@@ -6215,8 +6215,8 @@ def ledgeritem(request,pk):
     sum10=0
     sum11=0
     sum12=0
-    for g in sdata:
-        sum7+=g.lquantity
+    for i in sdata:
+        sum7+=i.lquantity
     for h in sdata:
         sum8+=h.lbasicrate
     for i in sdata:
@@ -6302,8 +6302,8 @@ def groupitem(request,pk):
     sum10=0
     sum11=0
     sum12=0
-    for g in sdata:
-        sum7+=g.quantity
+    for i in sdata:
+        sum7+=i.quantity
     for h in sdata:
         sum8+=h.basicrate
     for i in sdata:
@@ -10249,9 +10249,9 @@ def liststockgroups(request):
         else:
             return redirect('/')
 
-        data=stockgroupcreation.objects.filter(company_id=t_id)
+        data=stockgroupcreation.objects.filter(company_id = t_id)
+        context={'data':data,}
 
-        context={'data':data}
         return render(request,'list_stock_group.html',context)
 
 from django.db.models import Sum
@@ -10268,7 +10268,7 @@ def stock_ageing(request,pk):
 
         grp =stockgroupcreation.objects.get(id=pk)
 
-        item = stock_itemcreation.objects.values()
+        item = stock_itemcreation.objects.filter(under = grp.name).values()
         
         start_date =comp.fin_begin
         end_date = date.today()
@@ -10281,7 +10281,7 @@ def stock_ageing(request,pk):
         gtotal_qty_lt_45 = gtotal_val_lt_45 = gtotal_qty_45_90 = gtotal_val_45_90 = 0
         gtotal_qty_90_180 = gtotal_val_90_180 = gtotal_qty_gt_180 = gtotal_val_gt_180 = 0
         gtotal = gtotal_neg = 0
-
+       
         for i in item:
 
             voucher = stock_item_voucher.objects.filter(item_id = i['id'])
@@ -10334,10 +10334,6 @@ def stock_ageing(request,pk):
                             sales_val_gt_180 = 0 if v.outwards_val is None else v.outwards_val
                             total_sales_qty += sales_qty_gt_180
                             total_sales_val += sales_val_gt_180
-                        
-                        #total_sales_qty += sales_qty_lt_45 + sales_qty_45_90 + sales_qty_90_180 + sales_qty_gt_180
-                        #total_sales_val += sales_val_lt_45 + sales_val_45_90 + sales_val_90_180 + sales_val_gt_180
-
                         
                     elif v.Voucher_type == 'Purchase':
 
@@ -10478,26 +10474,266 @@ def stock_ageing(request,pk):
         
         v = stock_item_voucher.objects.all().latest('date')
         vdate = (v.date).strftime('1-%b-%y')
-   
+
         context = {
-            'company' : comp,
-            'group': grp,
-            'item'  :item,
-            'voucher':voucher,
-            'gt1' : gtotal,
-            'gt2' : gtotal_qty_lt_45,
-            'gt3' : gtotal_val_lt_45,
-            'gt4' : gtotal_qty_45_90,
-            'gt5' : gtotal_val_45_90,
-            'gt6' : gtotal_qty_90_180,
-            'gt7' : gtotal_val_90_180,
-            'gt8' : gtotal_qty_gt_180,
-            'gt9' : gtotal_val_gt_180,
-            'gt0' : gtotal_neg,
-            'vdate':vdate,
-        }
+                'company' : comp,
+                'group': grp,
+                'item'  :item,
+                'gt1' : gtotal,
+                'gt2' : gtotal_qty_lt_45,
+                'gt3' : gtotal_val_lt_45,
+                'gt4' : gtotal_qty_45_90,
+                'gt5' : gtotal_val_45_90,
+                'gt6' : gtotal_qty_90_180,
+                'gt7' : gtotal_val_90_180,
+                'gt8' : gtotal_qty_gt_180,
+                'gt9' : gtotal_val_gt_180,
+                'gt0' : gtotal_neg,
+                'vdate':vdate,
+            }
 
         return render(request,'stock_ageing_analysis.html',context)
+       
+
+def stock_ageing_primary(request):
+
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+
+        comp = Companies.objects.get(id=t_id)
+        grp = stockgroupcreation.objects.filter(under = 'Primary').values('name')
+       
+        item = stock_itemcreation.objects.filter(under__in = grp).values()
+            
+        start_date =comp.fin_begin
+        end_date = date.today()
+        date_lt_45 = end_date - timedelta(days=45)
+        date_45_90 = date_lt_45- timedelta(days=45)
+        date_90_180 = date_45_90 - timedelta(days=90)
+        s = (date_90_180-start_date).days
+        date_gt_180 = date_90_180 - timedelta(days = s)
+
+        gtotal_qty_lt_45 = gtotal_val_lt_45 = gtotal_qty_45_90 = gtotal_val_45_90 = 0
+        gtotal_qty_90_180 = gtotal_val_90_180 = gtotal_qty_gt_180 = gtotal_val_gt_180 = 0
+        gtotal = gtotal_neg = 0
+        
+        if item.exists():
+
+            for i in item:
+
+                voucher = stock_item_voucher.objects.filter(item_id = i['id'])
+
+                purchase_qty_lt_45 = sales_qty_lt_45= purchase_val_lt_45 = sales_val_lt_45 = 0
+                purchase_qty_45_90 = sales_qty_45_90 = purchase_val_45_90 = sales_val_45_90 = 0
+                purchase_qty_90_180 = sales_qty_90_180 = purchase_val_90_180 = sales_val_90_180 = 0
+                purchase_qty_gt_180 = sales_qty_gt_180 =purchase_val_gt_180 = sales_val_gt_180= 0
+                
+
+                total_qty_lt_45 = total_val_lt_45 = total_qty_45_90 = total_val_45_90 = total_qty_90_180 = 0
+                total_val_90_180 =total_qty_gt_180 = total_val_gt_180 = total_sales_qty = total_sales_val = 0
+
+                negative_stock = Total = 0
+
+
+                if voucher.exists():
+                
+                    for v in voucher:
+
+                        days1 = (date.today()-v.date).days
+
+                        
+                        if v.Voucher_type == 'Sales':
+                            
+                            if days1 < 45:
+                                sales_qty_lt_45 = 0 if v.outwards_qty is None else v.outwards_qty
+                                sales_val_lt_45 = 0 if v.outwards_val is None else v.outwards_val
+                                total_sales_qty += sales_qty_lt_45
+                                total_sales_val += sales_val_lt_45
+
+                            elif days1 >= 45 and days1 < 90:
+
+                                sales_qty_45_90 = 0 if v.outwards_qty is None else v.outwards_qty
+                                sales_val_45_90 = 0 if v.outwards_val is None else v.outwards_val
+                                total_sales_qty += sales_qty_45_90
+                                total_sales_val += sales_val_45_90
+
+                            
+                            elif days1>= 90 and days1 < 180:
+
+                                sales_qty_90_180 = 0 if v.outwards_qty is None else v.outwards_qty
+                                sales_val_90_180 = 0 if v.outwards_val is None else v.outwards_val
+                                total_sales_qty += sales_qty_90_180
+                                total_sales_val += sales_val_90_180
+
+                            else:
+
+                                sales_qty_gt_180 = 0 if v.outwards_qty is None else v.outwards_qty
+                                sales_val_gt_180 = 0 if v.outwards_val is None else v.outwards_val
+                                total_sales_qty += sales_qty_gt_180
+                                total_sales_val += sales_val_gt_180
+                            
+                            
+                        elif v.Voucher_type == 'Purchase':
+
+                            if days1 < 45:
+
+                                purchase_qty_lt_45 += 0 if v.inwards_qty is None else v.inwards_qty
+                                purchase_val_lt_45 += 0 if v.inwards_val is None else v.inwards_val
+
+                            elif days1 >= 45 and days1 < 90:
+
+                                purchase_qty_45_90 += 0 if v.inwards_qty is None else v.inwards_qty
+                                purchase_val_45_90 += 0 if v.inwards_val is None else v.inwards_val
+                            
+                            elif days1 >= 90 and days1 < 180:
+
+                                purchase_qty_90_180 += 0 if v.inwards_qty is None else v.inwards_qty
+                                purchase_val_90_180 += 0 if v.inwards_val is None else v.inwards_val
+                            
+                            else:
+
+                                purchase_qty_gt_180 += 0 if v.inwards_qty is None else v.inwards_qty
+                                purchase_val_gt_180 += 0 if v.inwards_val is None else v.inwards_val
+
+
+                        total_qty_gt_180 = purchase_qty_gt_180 - total_sales_qty
+                        total_val_gt_180 = purchase_val_gt_180 - total_sales_val
+
+                        if total_qty_gt_180 < 0:
+                            total_qty_90_180 = purchase_qty_90_180+ total_qty_gt_180
+                            total_val_90_180 = purchase_val_90_180 + total_val_gt_180
+                            total_qty_gt_180 = 0
+                            total_val_gt_180 = 0
+                        else:
+                            total_qty_90_180 = purchase_qty_90_180
+                            total_val_90_180 = purchase_val_90_180
+
+                        if total_qty_90_180 < 0:
+                            total_qty_45_90 = purchase_qty_45_90 + total_qty_90_180
+                            total_val_45_90 = purchase_val_45_90 + total_val_90_180
+                            total_qty_90_180 = 0
+                            total_val_90_180 = 0
+
+
+                        else:
+                            total_qty_45_90 = purchase_qty_45_90
+                            total_val_45_90 = purchase_val_45_90
+                                
+                        if total_qty_45_90 < 0:
+                            total_qty_lt_45 = purchase_qty_lt_45 + total_qty_45_90
+                            total_val_lt_45 = purchase_val_lt_45 + total_val_45_90
+                            total_qty_45_90 = 0
+                            total_val_45_90 = 0
+
+
+                        else:
+                            total_qty_lt_45 = purchase_qty_lt_45
+                            total_val_lt_45 = purchase_val_lt_45
+
+                        if total_qty_lt_45 < 0:
+
+                            negative_stock = total_qty_lt_45
+                            total_qty_lt_45 = 0
+                            total_val_lt_45 = 0
+
+                        
+                    Total = total_qty_lt_45 + total_qty_45_90 + total_qty_90_180 + total_qty_gt_180 + negative_stock
+
+                    i['totalqty_lt_45'] = total_qty_lt_45
+                    i['totalval_lt_45'] = total_val_lt_45
+
+                    i['totalqty_45_90'] = total_qty_45_90
+                    i['totalval_45_90'] = total_val_45_90
+
+                    i['totalqty_90_180'] = total_qty_90_180
+                    i['totalval_90_180'] = total_val_90_180
+
+                    i['totalqty_gt_180'] = total_qty_gt_180
+                    i['totalval_gt_180'] = total_val_gt_180
+
+                    i['negative_stock'] = negative_stock
+
+                    i['Total'] = Total
+
+                    
+                
+                else:
+                    if i['trackdate'] == 'No':
+                        days2 = (datetime.today()-datetime.strptime('01-04-2022','%d-%m-%Y')).days
+                    else:
+                        days2 = (datetime.today()-datetime.strptime(i['trackdate'],'%d-%m-%Y')).days
+
+                    if days2 < 45:
+                        total_qty_lt_45 = i['quantity']
+                        total_val_lt_45 = i['value']
+                    elif days2 >= 45 and days2 < 90:
+                        total_qty_45_90 = i['quantity']
+                        total_val_45_90 = i['value']
+                    elif days2 >= 90 and days2 < 180:
+                        total_qty_90_180 = i['quantity']
+                        total_val_90_180 = i['value']
+                    else:
+                        total_qty_gt_180 = i['quantity']
+                        total_val_gt_180 = i['value']
+
+                    Total = int(total_qty_lt_45) + int(total_qty_45_90) + int(total_qty_90_180) + int(total_qty_gt_180)
+
+                    i['totalqty_lt_45'] = int(total_qty_lt_45)
+                    i['totalval_lt_45'] = int(total_val_lt_45)
+
+                    i['totalqty_45_90'] = int(total_qty_45_90)
+                    i['totalval_45_90'] = int(total_val_45_90)
+
+                    i['totalqty_90_180'] = int(total_qty_90_180)
+                    i['totalval_90_180'] = int(total_val_90_180)
+
+                    i['totalqty_gt_180'] = int(total_qty_gt_180)
+                    i['totalval_gt_180'] = int(total_val_gt_180)
+
+                    i['Total'] = Total
+                
+                gtotal += Total
+                gtotal_qty_lt_45 += int(total_qty_lt_45)
+                gtotal_val_lt_45 += int(total_val_lt_45)
+                gtotal_qty_45_90 += int(total_qty_45_90)
+                gtotal_val_45_90 += int(total_val_45_90)
+                gtotal_qty_90_180 += int(total_qty_90_180)
+                gtotal_val_90_180 += int(total_val_90_180)
+                gtotal_qty_gt_180 += int(total_qty_gt_180)
+                gtotal_val_gt_180 += int(total_val_gt_180)
+                gtotal_neg += int(negative_stock)
+
+                i['startdate'] = start_date
+                i['enddate'] = end_date
+                i['datel45'] = date_lt_45
+                i['date4590'] = date_45_90
+                i['date90180'] = date_90_180
+                i['dategt180'] = date_gt_180
+            
+        v = stock_item_voucher.objects.all().latest('date')
+        vdate = (v.date).strftime('1-%b-%y')
+
+        context = {
+                'company' : comp,
+                'group': grp,
+                'item'  :item,
+                'gt1' : gtotal,
+                'gt2' : gtotal_qty_lt_45,
+                'gt3' : gtotal_val_lt_45,
+                'gt4' : gtotal_qty_45_90,
+                'gt5' : gtotal_val_45_90,
+                'gt6' : gtotal_qty_90_180,
+                'gt7' : gtotal_val_90_180,
+                'gt8' : gtotal_qty_gt_180,
+                'gt9' : gtotal_val_gt_180,
+                'gt0' : gtotal_neg,
+                'vdate':vdate,
+                }
+
+        return render(request,'stock_ageing_primary.html',context)
 
 def stock_monthly(request,pk):
 
