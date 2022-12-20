@@ -10266,9 +10266,9 @@ def stock_ageing(request,pk):
 
         comp = Companies.objects.get(id=t_id)
 
-        grp =stockgroupcreation.objects.get(id=pk)
+        grp =CreateStockGrp.objects.get(id=pk)
 
-        item = stock_itemcreation.objects.filter(under = grp.name).values()
+        item = stock_itemcreation.objects.filter(under_id = grp.id).values()
         
         start_date =comp.fin_begin
         end_date = date.today()
@@ -10504,9 +10504,9 @@ def stock_ageing_primary(request):
             return redirect('/')
 
         comp = Companies.objects.get(id=t_id)
-        grp = stockgroupcreation.objects.filter(under = 'Primary').values('name')
-       
-        item = stock_itemcreation.objects.filter(under__in = grp).values()
+        grp = CreateStockGrp.objects.filter(under_name = 'Primary').values('id')
+
+        item = stock_itemcreation.objects.filter(under_id__in = grp).values()
             
         start_date =comp.fin_begin
         end_date = date.today()
@@ -10749,8 +10749,11 @@ def stock_monthly(request,pk):
         vouch = stock_item_voucher.objects.filter(item_id = item.id)
 
         beg_date = comp.fin_begin.strftime('1-%b-%y')
-        v = vouch.latest('date')
-        new_date = (v.date).strftime('1-%b-%y')
+        if vouch.exists():
+            v = vouch.latest('date')
+            new_date = (v.date).strftime('1-%b-%y')
+        else:
+            new_date = comp.fin_begin.strftime('1-%b-%y')
 
         total_inqty = total_inval = total_outqty = total_outval = 0
         sum_in_qty = sum_in_val = sum_out_qty = sum_out_val = 0

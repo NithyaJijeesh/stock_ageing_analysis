@@ -651,9 +651,10 @@ class stockgroupcreation(models.Model):
 
 class stock_itemcreation(models.Model):
 
+    under=models.ForeignKey(CreateStockGrp,on_delete=models.CASCADE,default=0)
     name=models.CharField(max_length=100,null=True)
     alias=models.CharField(max_length=100,null=True)
-    under=models.CharField(max_length=100,null=True)
+    #under=models.CharField(max_length=100,null=True)
     units=models.CharField(max_length=100,null=True)
     batches=models.CharField(max_length=10,null=True)
     trackdate=models.CharField(max_length=10,null=True)
@@ -667,7 +668,8 @@ class stock_itemcreation(models.Model):
     per=models.CharField(max_length=100,null=True)
     value=models.CharField(max_length=100,null=True)
 
-    
+
+  
 
 class analysis_view(models.Model):
     comp=models.ForeignKey(Companies,on_delete=models.CASCADE)

@@ -138,7 +138,7 @@ class LedgerVoucher_Admin(admin.ModelAdmin):
     list_display=('id','Particular','Date','Vch_Type','Vch_No','Debit','Credit','Open_Balance')
 
 
-admin.site.register(stockgroupcreation)
+admin.site.register(CreateStockGrp)
 admin.site.register(stock_itemcreation)
 admin.site.register(stock_item_voucher)
 admin.site.register(fmonths)
