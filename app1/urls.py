@@ -673,4 +673,9 @@ urlpatterns = [
     path('item_inwards/<pk>/<d1>/<d2>',views.item_inwards,name="item_inwards"),
     path('stock_ageing_primary',views.stock_ageing_primary,name = 'stock_ageing_primary'),
 
+#------payment and receipt vouchers-------
+
+    path('payment_voucher',views.payment_voucher,name='payment_voucher'),
+    path('receipt_voucher',views.receipt_voucher,name='receipt_voucher'),
+
 ]

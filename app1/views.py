@@ -5460,11 +5460,12 @@ def stock_items_creation(request):
             rate=request.POST['rate']
             per=request.POST['per']
             value=request.POST['value']
-            #i = stockgroupcreation.objects.get(id = under)
+            #-----change
+            i = stockgroupcreation.objects.get(name = under)
             
                      
-            crt=stock_itemcreation(name=nm,alias=alias,under=under,units=units,batches=batches,trackdate=trackdate,expirydate=expirydate,typ_sply=typ_sply,
-            gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value)#,group=i )
+            crt=stock_itemcreation(name=nm,alias=alias,under=i,units=units,batches=batches,trackdate=trackdate,expirydate=expirydate,typ_sply=typ_sply,
+            gst_applicable=gst_applicable,set_alter=set_alter,rate_of_duty=rate_of_duty,quantity=quantity,rate=rate,per=per,value=value)
             crt.save()
             
             
@@ -10254,7 +10255,6 @@ def liststockgroups(request):
 
         return render(request,'list_stock_group.html',context)
 
-from django.db.models import Sum
 
 def stock_ageing(request,pk):
 
@@ -10266,7 +10266,7 @@ def stock_ageing(request,pk):
 
         comp = Companies.objects.get(id=t_id)
 
-        grp =CreateStockGrp.objects.get(id=pk)
+        grp =stockgroupcreation.objects.get(id=pk)
 
         item = stock_itemcreation.objects.filter(under_id = grp.id).values()
         
@@ -10471,9 +10471,18 @@ def stock_ageing(request,pk):
             i['date4590'] = date_45_90
             i['date90180'] = date_90_180
             i['dategt180'] = date_gt_180
-        
-        v = stock_item_voucher.objects.all().latest('date')
-        vdate = (v.date).strftime('1-%b-%y')
+
+        if item.exists():
+
+            if stock_item_voucher.objects.all().exists():
+                vouch = stock_item_voucher.objects.all().latest('date')
+                vdate = (vouch.date).strftime('1-%b-%y')
+            else:
+                it = stock_itemcreation.objects.all().latest('trackdate')
+                vdate = datetime.strptime(it,'1-%b-%y')
+        else:
+            d = datetime.strptime('1-Apr-22','1-%b-%y')
+            vdate =date.strftime(d,'1-%b-%y')
 
         context = {
                 'company' : comp,
@@ -10504,7 +10513,7 @@ def stock_ageing_primary(request):
             return redirect('/')
 
         comp = Companies.objects.get(id=t_id)
-        grp = CreateStockGrp.objects.filter(under_name = 'Primary').values('id')
+        grp = stockgroupcreation.objects.filter(under = 'Primary').values('id')
 
         item = stock_itemcreation.objects.filter(under_id__in = grp).values()
             
@@ -10713,8 +10722,17 @@ def stock_ageing_primary(request):
                 i['date90180'] = date_90_180
                 i['dategt180'] = date_gt_180
             
-        v = stock_item_voucher.objects.all().latest('date')
-        vdate = (v.date).strftime('1-%b-%y')
+        if item.exists():
+
+            if stock_item_voucher.objects.all().exists():
+                vouch = stock_item_voucher.objects.all().latest('date')
+                vdate = (vouch.date).strftime('1-%b-%y')
+            else:
+                it = stock_itemcreation.objects.all().latest('trackdate')
+                vdate = datetime.strptime(it,'1-%b-%y')
+        else:
+            d = datetime.strptime('1-Apr-22','1-%b-%y')
+            vdate =date.strftime(d,'1-%b-%y')
 
         context = {
                 'company' : comp,
@@ -10944,3 +10962,28 @@ def item_inwards(request,pk,d1,d2):
 
         }
         return render(request,'item_inwards_details.html',context)
+
+
+
+# -----------------payment and reciept vouchers---------------
+
+
+def payment_voucher(request):
+
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+        
+        return render(request,'payment_voucher.html')
+
+def receipt_voucher(request):
+
+    if 't_id' in request.session:
+        if request.session.has_key('t_id'):
+            t_id = request.session['t_id']
+        else:
+            return redirect('/')
+        
+        return render(request,'receipt_voucher.html')
