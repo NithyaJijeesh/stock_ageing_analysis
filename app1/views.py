@@ -10473,13 +10473,13 @@ def stock_ageing(request,pk):
             i['dategt180'] = date_gt_180
 
         if item.exists():
-
             if stock_item_voucher.objects.all().exists():
                 vouch = stock_item_voucher.objects.all().latest('date')
                 vdate = (vouch.date).strftime('1-%b-%y')
+            
             else:
-                it = stock_itemcreation.objects.all().latest('trackdate')
-                vdate = datetime.strptime(it,'1-%b-%y')
+                d = datetime.strptime('1-Apr-22','1-%b-%y')
+                vdate =date.strftime(d,'1-%b-%y')
         else:
             d = datetime.strptime('1-Apr-22','1-%b-%y')
             vdate =date.strftime(d,'1-%b-%y')
@@ -10721,15 +10721,16 @@ def stock_ageing_primary(request):
                 i['date4590'] = date_45_90
                 i['date90180'] = date_90_180
                 i['dategt180'] = date_gt_180
-            
-        if item.exists():
 
+                    
+        if item.exists():
             if stock_item_voucher.objects.all().exists():
                 vouch = stock_item_voucher.objects.all().latest('date')
                 vdate = (vouch.date).strftime('1-%b-%y')
+            
             else:
-                it = stock_itemcreation.objects.all().latest('trackdate')
-                vdate = datetime.strptime(it,'1-%b-%y')
+                d = datetime.strptime('1-Apr-22','1-%b-%y')
+                vdate =date.strftime(d,'1-%b-%y')
         else:
             d = datetime.strptime('1-Apr-22','1-%b-%y')
             vdate =date.strftime(d,'1-%b-%y')
@@ -10749,6 +10750,7 @@ def stock_ageing_primary(request):
                 'gt9' : gtotal_val_gt_180,
                 'gt0' : gtotal_neg,
                 'vdate':vdate,
+                
                 }
 
         return render(request,'stock_ageing_primary.html',context)
